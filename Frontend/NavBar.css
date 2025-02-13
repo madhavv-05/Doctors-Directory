@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: white;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px 30px;
+    
+    border-bottom: 1px solid #e0e0e0;
+    position: fixed;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 30px;  /* Space between logo and left menu items */
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    margin-right: 80px;
+    gap: 30px;  /* Increased gap for better spacing */
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2d3e50;
+    margin-left: 80px;
+}
+
+.logo .dot {
+    color: #007bff;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    padding: 8px 12px;
+}
+
+.nav-links a:hover {
+    color: #007bff;
+}
+
+.new-badge {
+    background-color: #007bff;
+    color: white;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    min-width: 150px;
+}
+
+.dropdown-menu li {
+    padding: 8px;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 8px 12px;
+    color: black;
+    text-decoration: none;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.profile-icon img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.auth-button {
+    padding: 8px 20px;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    color: #007bff;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.auth-button:hover {
+    background-color: #007bff;
+    color: white;
+}
