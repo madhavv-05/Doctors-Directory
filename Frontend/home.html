@@ -198,6 +198,131 @@ body {
     margin-right: 13px;
 }
 
+.categories-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.category-container {
+    position: relative;
+    margin-bottom: 50px;
+    padding: 0 20px;
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.category-header h2 {
+    font-size: 24px;
+    color: #2d3e50;
+    margin-bottom: 10px;
+}
+
+.category-header p {
+    color: #666;
+    font-size: 16px;
+    flex-basis: 100%;
+}
+
+.view-all {
+    padding: 8px 20px;
+    border: 2px solid #00b5b7;
+    border-radius: 6px;
+    color: #00b5b7;
+    background: transparent;
+    cursor: pointer;
+}
+
+.items-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 30px;
+    padding: 20px 0;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.item-card {
+    min-width: 200px;  /* Set minimum width */
+    flex: 0 0 auto;    /* Prevent shrinking */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    scroll-snap-align: start;
+}
+
+.icon-circle {
+    width: 120px;
+    height: 120px;
+    background: #f0f4ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    overflow: hidden;  /* Ensure image doesn't overflow */
+    position: relative; /* For absolute positioning of image */
+}
+
+.icon-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* Cover the entire circle */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+
+.item-card h3 {
+    font-size: 16px;
+    color: #333;
+    margin: 10px 0;
+}
+
+.item-card p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.consult-link {
+    color: #00b5b7;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Hide scrollbar but keep functionality */
+.items-grid::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+}
+
+.items-grid {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+
+@media (max-width: 768px) {
+    .items-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .items-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
 </style>
 <body>
 
@@ -228,10 +353,267 @@ body {
             </div>
             <div class="search-input-container">
                 <img class="icon" src="images/search_icon.png" alt="Search Icon" />
-                <input type="text" placeholder="Search doctors, clinics, hospitals, etc." />
+                <input type="text" placeholder="Search Specialities, Doctors, Clinics, Hospitals, etc." />
             </div>
         </div>
     </div>
+
+    <section class="categories-section">
+        <!-- Trending Specialties -->
+        <div class="category-container">
+            <div class="category-header">
+                <h2>Consult doctors online for any Specialty</h2>
+                <p>Private online consultations with verified doctors in all specialists</p>
+               
+            </div>
+            <div class="items-grid">
+                <div class="item-card">
+                    <div class="icon-circle">
+                        <img src="images/speciality.jpeg" alt="">
+                    </div>
+                    <h3>Dermatologist</h3>
+                    <a href="#" class="consult-link">CONSULT NOW</a>
+                </div>
+                <!-- More specialty cards -->
+            
+                <div class="item-card">
+                    <div class="icon-circle">
+                        <img src="images/speciality.jpeg" alt="">
+                    </div>
+                    <h3>Dermatologist</h3>
+                    <a href="#" class="consult-link">CONSULT NOW</a>
+                </div>
+                <!-- More specialty cards -->
+            
+                <div class="item-card">
+                    <div class="icon-circle">
+                        <img src="images/speciality.jpeg" alt="">
+                    </div>
+                    <h3>Dermatologist</h3>
+                    <a href="#" class="consult-link">CONSULT NOW</a>
+                </div>
+                <!-- More specialty cards -->
+            </div>
+        </div>
+
+        <!-- Featured Doctors -->
+        <div class="category-container">
+            <div class="category-header">
+                <h2>Top Rated Doctors</h2>
+                <p>Book appointments with top-rated doctors</p>
+              
+            </div>
+            <div class="items-grid">
+                <div class="item-card">
+                    <div class="icon-circle">
+                        <img src="images/doctor.png" alt="">
+                    </div>
+                    <h3>Dr. John Smith</h3>
+                    <p>Cardiologist</p>
+                    <a href="#" class="consult-link">BOOK NOW</a>
+                </div>
+                <div class="item-card">
+                    <div class="icon-circle">
+                        <img src="images/doctor.png" alt="">
+                    </div>
+                    <h3>Dr. John Smith</h3>
+                    <p>Cardiologist</p>
+                    <a href="#" class="consult-link">BOOK NOW</a>
+                </div>
+                <div class="item-card">
+                    <div class="icon-circle">
+                        <img src="images/doctor.png" alt="">
+                    </div>
+                    <h3>Dr. John Smith</h3>
+                    <p>Cardiologist</p>
+                    <a href="#" class="consult-link">BOOK NOW</a>
+                </div>
+                <!-- More doctor cards -->
+            </div>
+            
+        </div>
+        <div class="category-container">
+            <div class="category-header">
+                <h2>Top Rated Hospitals</h2>
+                <p>Explore Top Rated Hospitals</p>
+              
+            </div>
+            <div class="items-grid">
+                <div class="item-card">
+                    <div class="icon-circle">
+                        <img src="images/hospital.png" alt="">
+                    </div>
+                    <h3>Apollo Hospital</h3>
+                    <p>Multi-speciality </p>
+                    <a href="#" class="consult-link">BOOK NOW</a>
+                </div>
+                <div class="item-card">
+                    <div class="icon-circle">
+                        <img src="images/hospital.png" alt="">
+                    </div>
+                    <h3>Apollo Hospital</h3>
+                    <p>Multi-speciality</p>
+                    <a href="#" class="consult-link">BOOK NOW</a>
+                </div>
+                <div class="item-card">
+                    <div class="icon-circle">
+                        <img src="images/hospital.png" alt="">
+                    </div>
+                    <h3>Apollo Hospital</h3>
+                    <p>Multi-speciality</p>
+                    <a href="#" class="consult-link">BOOK NOW</a>
+                </div>
+                <!-- More doctor cards -->
+            </div>
+            
+        </div>
+    </section>
+
+    <footer class="footer">
+      
+        <div class="footer-content">
+        
+            <div class="footer-column">
+                <h3>Doctor's Directory</h3>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- For patients Column -->
+            <div class="footer-column">
+                <h3>For patients</h3>
+                <ul>
+                    <li><a href="#">Search for doctors</a></li>
+                    <li><a href="#">Search for clinics</a></li>
+                    <li><a href="#">Search for hospitals</a></li>
+                    <li><a href="#">Read about medicines</a></li>
+                
+                </ul>
+            </div>
+
+            <!-- For doctors Column -->
+            <div class="footer-column">
+                <h3>For doctors</h3>
+                <ul>
+                    
+                    <li><a href="#">Profile</a></li>
+                </ul>
+                
+            </div>
+           
+
+
+            <!-- For hospitals Column -->
+            
+
+            <!-- More Column -->
+            <div class="footer-column">
+                <h3>More</h3>
+                <ul>
+                    <li><a href="#">Help</a></li>
+                    <li><a href="#">Developers</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">PCS T&C</a></li>
+                    <li><a href="#">Healthcare Directory</a></li>
+                  
+                </ul>
+            </div>
+
+            <!-- Social Column -->
+            <div class="footer-column">
+                <h3>Social</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Youtube</a></li>
+                    <li><a href="#">Github</a></li>
+                </ul>
+            </div>
+           
+        </div>
+
+        <!-- Logo and Copyright -->
+        <div class="footer-bottom">
+            <img src="images/practo-logo-white.png" alt="Doctor's Directory" class="footer-logo">
+            <p class="copyright">Copyright © 2017, Doctor's Directory. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <style>
+        .footer {
+            background-color: #2d3e50;
+            color: white;
+            padding: 50px 0 20px;
+            
+           
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 30px;
+            padding: 0 20px;
+            
+        }
+
+        .footer-column h3 {
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #a7b6c2;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-logo {
+            height: 30px;
+            margin-bottom: 10px;
+        }
+
+        .copyright {
+            color: #a7b6c2;
+            font-size: 14px;
+        }
+
+        
+      
+    </style>
 
 </body>
 </html>
