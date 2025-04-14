@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor's Directory - Register</title>
-    <link rel="stylesheet" href="styles.css">
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -226,12 +226,12 @@
         </div>
         <div class="right-panel">
             <h2>Welcome Back!</h2>
-            <form id="SignInForm">
+            <form id="SignInForm" action="./home.html">
                 
                
                 <div class="form-group">
-                    <input type="email_phone" id="email_phone" placeholder="Email/Mobile" required>
-                    <input type="password" id="password" placeholder="Password" required>
+                    <input type="email_phone" id="email_phone" placeholder="Email/Mobile" >
+                    <input type="password" id="password" placeholder="Password" >
                    
                 </div>
                
@@ -254,28 +254,28 @@
         </div>
     </div>
     <script>
-        document.getElementById('SignInForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+        // document.getElementById('SignInForm').addEventListener('submit', function(event) {
+        //     event.preventDefault();
             
            
             
-            let email_phone = document.getElementById('email').value.trim();
-            let password = document.getElementById('password').value;
+        //     let email_phone = document.getElementById('email').value.trim();
+        //     let password = document.getElementById('password').value;
           
             
-            if (email_phone === '' || password === '') {
-                alert('All fields are required!');
-                return;
-            }
+        //     if (email_phone === '' || password === '') {
+        //         alert('All fields are required!');
+        //         return;
+        //     }
             
-            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                alert('Please enter a valid email address!');
-                return;
-            }
+        //     let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        //     if (!emailPattern.test(email)) {
+        //         alert('Please enter a valid email address!');
+        //         return;
+        //     }
             
          
-        });
+        // });
     </script>
 </body>
 </html>

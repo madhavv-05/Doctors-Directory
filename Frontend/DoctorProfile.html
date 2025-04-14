@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor Profile - Doctor's Directory</title>
+    <style>
+          * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: white;
+}
+
+        .container {
+            
+            display: flex;
+            width: auto;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+         
+            
+        }
+        .left-panel {
+            width: 40%;
+            background: #123e70;
+            color: white;
+            border-radius: 20px;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .left-panel img {
+            width: 80%;
+            max-width: 250px;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        .left-panel h2 {
+            margin: 10px 0 5px;
+            font-weight: 700;
+        }
+        .left-panel p {
+            margin: 5px 0;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .right-panel {
+            width: 60%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .right-panel h2 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .profile-info {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #444;
+        }
+        .profile-info strong {
+            color: #123e70;
+        }
+       
+    </style>
+</head>
+<body>
+    <div id="navbar">
+
+    </div>
+
+    <script>
+        fetch("navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("navbar").innerHTML = data;
+            });
+    </script>
+
+    <div class="container">
+        <div class="left-panel">
+            <img src="images/doctor.png" alt="Doctor Photo" />
+            <h2>Dr. John Doe</h2>
+            <p>Cardiologist</p>
+            <p>City Hospital</p>
+            <p><a href="mailto:johndoe@example.com" style="color: #a8c4ff; ">johndoe@example.com</a></p>
+            <p><a href="tel:+1234567890" style="color: #a8c4ff;">+1 234 567 890</a></p>
+        </div>
+        <div class="right-panel">
+            <h2>About Dr. John Doe</h2>
+            <div class="profile-info">
+                <p><strong>Experience:</strong> 15 years in cardiology and cardiovascular surgery.</p>
+                <p><strong>Education:</strong> MD from Harvard Medical School.</p>
+                <p><strong>Specialties:</strong> Heart disease, hypertension, cardiac surgery.</p>
+                <p><strong>Languages:</strong> English, Spanish.</p>
+                <p><strong>Bio:</strong> Dr. John Doe is a highly experienced cardiologist dedicated to providing the best care for his patients. He has published numerous research papers and is a member of several professional medical associations.</p>
+            </div>
+        </div>
+    </div>
+   
+</body>
+</html>

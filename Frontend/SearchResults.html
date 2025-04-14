@@ -15,59 +15,7 @@ body {
     background-color: white;
 }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    padding: 15px 30px;
-    
-    border-bottom: 1px solid #e0e0e0;
-    
-    width: 100%;
-    margin-top: 10px;
-}
 
-.nav-left {
-    display: flex;
-    align-items: center;
-    gap: 30px;  /* Space between logo and left menu items */
-}
-
-.nav-right {
-    display: flex;
-    align-items: center;
-    margin-right: 80px;
-    gap: 30px;  /* Increased gap for better spacing */
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #2d3e50;
-    margin-left: 80px;
-}
-
-.logo .dot {
-    color: #007bff;
-}
-
-.nav-links {
-    display: flex;
-    gap: 20px;
-    list-style: none;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: #333;
-    font-size: 16px;
-    padding: 8px 12px;
-}
-
-.nav-links a:hover {
-    color: #007bff;
-}
 
 .new-badge {
     background-color: #007bff;
@@ -289,24 +237,16 @@ body {
         margin: 0;
     }
 </style>
-<nav class="navbar">
-    <div class="nav-left">
-        <div class="logo">
-            <span class="dot"></span> <span class="brand">Doctor's Directory</span>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#">Find Doctors</a></li>
-            <li><a href="#">Book an Appointemnt</a></li>
-        </ul>
-    </div>
+<body>
+    <div id="navbar"></div>
 
-    <div class="nav-right">
-        <ul class="nav-links">
-            <li><a href="#">Raise an Issue</a></li>
-        </ul>
-        <a href="SignUp.html" class="auth-button">Login / Sign Up</a>
-    </div>
-</nav>
+<script>
+  fetch("navbar.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+    });
+</script>
 <div class="filter-nav">
     <div class="filter-container">
         <div class="filter-group">
