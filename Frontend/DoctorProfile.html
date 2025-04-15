@@ -6,26 +6,24 @@
     <title>Doctor Profile - Doctor's Directory</title>
     <style>
           * {
-    margin: 0;
-    padding: 0;
+            
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
 
 body {
     background-color: white;
+
 }
 
         .container {
-            
+            margin-top: 40px;
             display: flex;
             width: auto;
             max-width: 1200px;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-         
             
+    
         }
         .left-panel {
             width: 40%;
@@ -68,6 +66,7 @@ body {
             font-size: 16px;
             line-height: 1.6;
             color: #444;
+            text-align: justify;
         }
         .profile-info strong {
             color: #123e70;
@@ -76,9 +75,7 @@ body {
     </style>
 </head>
 <body>
-    <div id="navbar">
-
-    </div>
+        <div id="navbar"></div>
 
     <script>
         fetch("navbar.html")
@@ -87,7 +84,7 @@ body {
                 document.getElementById("navbar").innerHTML = data;
             });
     </script>
-
+    <center>
     <div class="container">
         <div class="left-panel">
             <img src="images/doctor.png" alt="Doctor Photo" />
@@ -98,16 +95,92 @@ body {
             <p><a href="tel:+1234567890" style="color: #a8c4ff;">+1 234 567 890</a></p>
         </div>
         <div class="right-panel">
-            <h2>About Dr. John Doe</h2>
+            
             <div class="profile-info">
                 <p><strong>Experience:</strong> 15 years in cardiology and cardiovascular surgery.</p>
                 <p><strong>Education:</strong> MD from Harvard Medical School.</p>
                 <p><strong>Specialties:</strong> Heart disease, hypertension, cardiac surgery.</p>
-                <p><strong>Languages:</strong> English, Spanish.</p>
                 <p><strong>Bio:</strong> Dr. John Doe is a highly experienced cardiologist dedicated to providing the best care for his patients. He has published numerous research papers and is a member of several professional medical associations.</p>
+                <p><strong>Fees:</strong> ₹ 500                </p>
             </div>
+           
+            <div id="appointment-scheduler" style="margin-top: 20px;">
+                <label for="appointment-date" style="font-weight: 600; display: block; margin-bottom: 8px;">Book an Appointment</label>
+                <input type="date" id="appointment-date" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc; width: 100%; max-width: 300px;" />
+              
+                <div id="available-slots" style="margin-top: 15px;">
+                    <!-- Available slots will be shown here -->
+                </div>
+           
+                
+            </div>
+
+
+            <script>
+                const slotsByDate = {
+                    "2024-06-01": ["09:00 AM", "10:00 AM", "02:00 PM", "04:00 PM"],
+                    "2024-06-02": ["11:00 AM", "01:00 PM", "03:00 PM"],
+                    "2024-06-03": ["09:30 AM", "12:00 PM", "03:30 PM", "05:00 PM"]
+                };
+
+                const dateInput = document.getElementById('appointment-date');
+                const slotsContainer = document.getElementById('available-slots');
+
+                dateInput.addEventListener('change', () => {
+                    const selectedDate = dateInput.value;
+                    slotsContainer.innerHTML = '';
+
+                    if (!selectedDate) {
+                        slotsContainer.innerHTML = '<p>Please select a date to see available slots.</p>';
+                        return;
+                    }
+
+                    const slots = slotsByDate[selectedDate];
+                    if (!slots || slots.length === 0) {
+                        slotsContainer.innerHTML = '<p>No available slots for the selected date.</p>';
+                        return;
+                    }
+
+                    const slotsList = document.createElement('div');
+                    slotsList.style.display = 'flex';
+                    slotsList.style.gap = '12px';
+                    slotsList.style.justifyContent = 'center';
+
+                    slots.forEach(slot => {
+                        const slotButton = document.createElement('button');
+                        slotButton.textContent = slot;
+                        slotButton.style.padding = '8px 16px';
+                        slotButton.style.backgroundColor = '#007bff';
+                        slotButton.style.color = 'white';
+                        slotButton.style.border = 'none';
+                        slotButton.style.borderRadius = '6px';
+                        slotButton.style.cursor = 'pointer';
+                        slotButton.style.userSelect = 'none';
+                        slotButton.style.boxShadow = '0 2px 6px rgba(0, 123, 255, 0.5)';
+                        slotButton.style.transition = 'background-color 0.3s ease';
+
+                        slotButton.addEventListener('mouseenter', () => {
+                            slotButton.style.backgroundColor = '#0056b3';
+                        });
+                        slotButton.addEventListener('mouseleave', () => {
+                            slotButton.style.backgroundColor = '#007bff';
+                        });
+
+                        slotButton.addEventListener('click', () => {
+                            // Redirect to booking confirmation page with query params
+                            const url = `BookingConfirmation.html?date=${selectedDate}&time=${encodeURIComponent(slot)}`;
+                            window.location.href = url;
+                        });
+
+                        slotsList.appendChild(slotButton);
+                    });
+
+                    slotsContainer.appendChild(slotsList);
+                });
+            </script>
         </div>
     </div>
+</center>
    
 </body>
 </html>

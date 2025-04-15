@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Video Call - Doctor's Directory</title>
+  <style>
+  body {
+    margin: 0;
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+  }
+  .video-container {
+    position: relative;
+    width: 80vw;
+    max-width: 900px;
+    height: 60vh;
+    background-color: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+  #doctorVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: #222;
+  }
+  #patientVideo {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 25%;
+    height: 25%;
+    border: 3px solid #007bff;
+    border-radius: 12px;
+    object-fit: cover;
+    background-color: #444;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.7);
+  }
+  .controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+  .auth-button {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+  }
+ 
+  .auth-button:active {
+    transform: scale(0.95);
+  }
+  .auth-button .icon {
+    font-size: 20px;
+  }
+  </style>
+</head>
+  <body>
+    <div class="video-header" style="width: 80vw; max-width: 900px; display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 16px; color: #333; font-weight: 600;">
+      <div class="booking-id" style="flex: 1; text-align: left;">
+        Appointment ID: ABC123456
+      </div>
+      <div class="time-slot" style="flex: 1; text-align: right;">
+        2024-06-15 10:00 AM - 10:30 AM
+      </div>
+    </div>
+    <div class="video-container">
+      <video id="doctorVideo" autoplay muted playsinline></video>
+      <video id="patientVideo" autoplay muted playsinline></video>
+    </div>
+    <div class="controls">
+      <button id="hangupBtn" class="auth-button">
+       Leave
+      </button>
+      <button id="snapshotBtn" class="auth-button" title="Take Snapshot">
+        &#128247; Snapshot
+      </button>
+      <button id="toggleVideoBtn" class="auth-button" title="Turn Off Video">
+        &#128065; Video Off
+      </button>
+      <button id="toggleMicBtn" class="auth-button" title="Turn Off Mic">
+        &#128264; Mic Off
+      </button>
+    </div>
+
+  <script>
+    const doctorVideo = document.getElementById('doctorVideo');
+    const patientVideo = document.getElementById('patientVideo');
+    const hangupBtn = document.getElementById('hangupBtn');
+    const snapshotBtn = document.getElementById('snapshotBtn');
+    const toggleVideoBtn = document.getElementById('toggleVideoBtn');
+    const toggleMicBtn = document.getElementById('toggleMicBtn');
+
+    let localStream = null;
+    let videoEnabled = true;
+    let micEnabled = true;
+
+    // For demo purposes, use getUserMedia for patient video and a placeholder for doctor video
+    async function startVideoCall() {
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        patientVideo.srcObject = localStream;
+
+        // For doctor video, use a placeholder video or image (simulate remote stream)
+        // Here we use a sample video from a URL or fallback to a placeholder image
+        // For now, use a placeholder image as video srcObject requires MediaStream
+        doctorVideo.poster = 'images/doctor.png';
+        doctorVideo.src = '';
+      } catch (err) {
+        alert('Error accessing camera/microphone: ' + err.message);
+      }
+    }
+
+    startVideoCall();
+
+    hangupBtn.addEventListener('click', () => {
+      if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+      }
+      alert('Call ended.');
+      // Redirect or close window as needed
+      window.location.href = 'home.html';
+    });
+
+    snapshotBtn.addEventListener('click', () => {
+      if (!localStream) {
+        alert('No video stream available for snapshot.');
+        return;
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = patientVideo.videoWidth;
+      canvas.height = patientVideo.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(patientVideo, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = 'snapshot.png';
+      link.click();
+    });
+
+    toggleVideoBtn.addEventListener('click', () => {
+      if (!localStream) return;
+      videoEnabled = !videoEnabled;
+      localStream.getVideoTracks().forEach(track => track.enabled = videoEnabled);
+      toggleVideoBtn.textContent = videoEnabled ? '👁️ Video On' : '🚫 Video Off';
+    });
+
+    toggleMicBtn.addEventListener('click', () => {
+      if (!localStream) return;
+      micEnabled = !micEnabled;
+      localStream.getAudioTracks().forEach(track => track.enabled = micEnabled);
+      toggleMicBtn.textContent = micEnabled ? '🎤 Mic On' : '🔇 Mic Off';
+    });
+  </script>
+</body>
+</html>

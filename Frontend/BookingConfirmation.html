@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Booking Confirmation</title>
+
+</head>
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f9ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.confirmation-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.checkmark {
+  font-size: 60px;
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: #333;
+}
+
+.booking-details {
+  text-align: left;
+  background: #f7faff;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.booking-details p {
+  margin: 8px 0;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+
+</style>
+
+<body>
+  <div class="confirmation-container">
+    <div class="checkmark">&#10004;</div>
+    <h1>Booking Confirmed!</h1>
+    <p>Your appointment has been successfully booked.</p>
+
+    <div class="booking-details">
+      <p><strong>Doctor:</strong> Dr. Aisha Mehta</p>
+      <p><strong>Specialty:</strong> Dermatologist</p>
+      <p><strong>Date:</strong> April 18, 2025</p>
+      <p><strong>Time:</strong> 4:30 PM</p>
+      <p><strong>Booking ID:</strong> <span id="booking-id"></span></p>
+    </div>
+
+    <button onclick="goHome()">Back to Home</button>
+  </div>
+
+  <script>
+    function goHome(){
+      window.location.href="home.html";
+    }
+  </script>
+</body>
+</html>
