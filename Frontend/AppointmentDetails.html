@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Appointment Details</title>
+    <link rel="stylesheet" href="NavBar.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f4f7fa;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            padding: 30px;
+            border-left: 5px solid #007bff;
+        }
+        h2 {
+            color: #2d3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .detail {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #555;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 10px 0;
+        }
+        .detail span.label {
+            font-weight: bold;
+            color: #333;
+        }
+        .prescription-image {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .back-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Appointment Details</h2>
+        <div class="detail"><span class="label">Appointment ID:</span> <span id="appointmentId">12345</span></div>
+        <div class="detail"><span class="label">Doctor Name:</span> <span id="doctorName">Dr. Smith</span></div>
+        <div class="detail"><span class="label">Patient Name:</span> <span id="patientName">John Doe</span></div>
+        <div class="detail"><span class="label">Date:</span> <span id="appointmentDate">2023-10-15</span></div>
+        <div class="detail"><span class="label">Time Slot:</span> <span id="timeSlot">10:00 AM</span></div>
+        <div class="detail"><span class="label">Status:</span> <span id="status">Online</span></div>
+        <div class="detail"><span class="label">Prescription:</span> 
+            <span id="prescription">
+                <img src="path/to/prescription_image.jpg" alt="Prescription" class="prescription-image" onerror="this.style.display='none'; this.nextSibling.textContent='N/A';" />
+                <span style="display:inline;">N/A</span>
+            </span>
+        </div>
+        <div class="detail"><span class="label">Medium:</span> <span id="medium">Video Call</span></div>
+        <div class="button-container">
+            <button class="back-button" onclick="window.history.back();">Back to Profile</button>
+        </div>
+    </div>
+</body>
+</html>

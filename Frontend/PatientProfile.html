@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Patient Profile</title>
+    <link rel="stylesheet" href="NavBar.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+            padding: 0;
+            margin: 0;
+        }
+        .nav-links li {
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 6px;
+            user-select: none;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .nav-links li.active,
+        .nav-links li:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        .container {
+            display: flex;
+            max-width: 1000px;
+            margin: 30px auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            min-height: 400px;
+        }
+        .left-panel {
+            width: 350px;
+            border-right: 1px solid #ddd;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .profile-header img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #007bff;
+        }
+        .profile-header h2 {
+            font-size: 24px;
+            color: #2d3e50;
+            margin: 0;
+        }
+        .details-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .details-list li {
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #555;
+        }
+        .details-list li span.label {
+            font-weight: 600;
+            color: #333;
+            display: inline-block;
+            width: 110px;
+        }
+        .right-panel {
+            flex-grow: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        /* Placeholder styles for appointments and issues */
+        .section-content {
+            font-size: 16px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar"></div>
+    
+    <script>
+      fetch("navbar.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("navbar").innerHTML = data;
+        });
+    </script>
+    <div class="container">
+        <div>
+            <h3 class="overview-header" style="margin-left: 20px; margin-top: 20px;">Overview</h3>
+            <div class="left-panel" id="leftPanel">
+                <div class="profile-header">
+                    <img src="images/doctor.png" alt="Patient Profile Picture" />
+                    <h2>John Doe</h2>
+                </div>
+                <ul class="details-list" id="detailsList">
+                    <li><span class="label">DOB:</span> 01/01/1980</li>
+                    <li><span class="label">Email:</span> john.doe@example.com</li>
+                    <li><span class="label">Mobile Number:</span> +1 234 567 8901</li>
+                    <li><span class="label">Password:</span> ********</li>
+                    <li><span class="label">Address:</span> 123 Main St</li>
+                    <li><span class="label">City:</span> Springfield</li>
+                    <li><span class="label">State:</span> Illinois</li>
+                    <li><span class="label">Country:</span> USA</li>
+                </ul>
+                <div class="action-buttons" style="margin-top: 20px; display: flex; gap: 15px;">
+                    <button id="editBtn" class="edit-button" style="padding: 8px 20px; background-color: #007bff; border: none; border-radius: 6px; color: white; font-weight: 600; cursor: pointer; transition: background-color 0.2s;">Edit</button>
+                    <button id="signOutBtn" class="signout-button" style="padding: 8px 20px; background-color: #dc3545; border: none; border-radius: 6px; color: white; font-weight: 600; cursor: pointer; transition: background-color 0.2s;">Sign Out</button>
+                </div>
+            </div>
+        </div>
+        <div>
+        <ul class="nav-links embedded-nav" id="navLinks">
+            <li data-section="appointments" class="active">Appointments</li>
+            <li data-section="issues">Issues</li>
+        </ul>
+            <div class="right-panel" id="rightPanel">
+                <!-- Right panel content will be updated based on navbar selection -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const navLinks = document.getElementById('navLinks');
+        const rightPanel = document.getElementById('rightPanel');
+
+        const content = {
+            appointments: `
+                <h3>Appointments</h3>
+                <div class="section-content">
+                    <div class="appointment-tiles">
+                        <div class="appointment-tile" style="background-color: lightcoral; cursor: pointer; padding: 15px; margin: 10px; border-radius: 8px;" ;">
+                            <strong>Time Slot:</strong> 2023-10-15 10:00 AM <br>
+                            <strong>Doctor:</strong> Dr. Smith <br>
+                            <strong>Status:</strong> <span style="color: darkred;">Pending</span>
+                        </div>
+                        <div class="appointment-tile" style="background-color: lightgreen; cursor: pointer; padding: 15px; margin: 10px; border-radius: 8px;">
+                            <strong>Time Slot:</strong> 2023-10-16 02:00 PM <br>
+                            <strong>Doctor:</strong> Dr. Johnson <br>
+                            <strong>Status:</strong> <span style="color: green;">Completed</span>
+                        </div>
+                    </div>
+                </div>
+            `,
+            issues: `
+                <h3>Issues</h3>
+                <div class="section-content">
+                    <p>No issues reported.</p>
+                </div>
+            `
+        };
+
+        navLinks.addEventListener('click', (e) => {
+            if (e.target.tagName === 'LI') {
+                // Remove active class from all
+                Array.from(navLinks.children).forEach(li => li.classList.remove('active'));
+                // Add active class to clicked
+                e.target.classList.add('active');
+                // Update right panel content
+                const section = e.target.getAttribute('data-section');
+                rightPanel.innerHTML = content[section];
+            }
+        });
+
+        // Show appointments content by default on page load
+        rightPanel.innerHTML = content['appointments'];
+
+        // Edit and Sign Out button handlers
+        function attachEditSaveHandlers() {
+            const editBtn = document.getElementById('editBtn');
+            const signOutBtn = document.getElementById('signOutBtn');
+            const detailsList = document.getElementById('detailsList');
+
+            if (!editBtn || !signOutBtn || !detailsList) return;
+
+            editBtn.textContent = 'Edit';
+
+            editBtn.onclick = () => {
+                if (editBtn.textContent === 'Edit') {
+                    // Switch to edit mode
+                    editBtn.textContent = 'Save';
+                    makeDetailsEditable(detailsList);
+                } else {
+                    // Validate inputs before saving
+                    if (!validateDetails(detailsList)) {
+                        return;
+                    }
+                    // Save mode
+                    editBtn.textContent = 'Edit';
+                    saveDetails(detailsList);
+                }
+            };
+
+            signOutBtn.onclick = () => {
+                alert('Signing out...');
+                // Implement sign out logic here
+            };
+        }
+
+        function makeDetailsEditable(detailsList) {
+            const items = detailsList.querySelectorAll('li');
+            items.forEach(li => {
+                const label = li.querySelector('.label').textContent;
+                const valueSpan = li.querySelector('.value') || li.childNodes[1];
+                const currentValue = valueSpan.textContent || valueSpan.nodeValue;
+                const input = document.createElement('input');
+                input.type = label === 'Password:' ? 'password' : 'text';
+                input.value = currentValue === '********' ? '' : currentValue;
+                input.style.width = 'calc(100% - 120px)';
+                input.style.padding = '4px 6px';
+                input.style.fontSize = '14px';
+                li.replaceChild(input, valueSpan);
+            });
+        }
+
+        function saveDetails(detailsList) {
+            const items = detailsList.querySelectorAll('li');
+            items.forEach(li => {
+                const label = li.querySelector('.label').textContent;
+                const input = li.querySelector('input');
+                let value = input.value.trim();
+                if (label === 'Password:' && value === '') {
+                    value = '********';
+                }
+                const span = document.createElement('span');
+                span.className = 'value';
+                span.textContent = value;
+                li.replaceChild(span, input);
+            });
+        }
+
+        function validateDetails(detailsList) {
+            const items = detailsList.querySelectorAll('li');
+            for (let li of items) {
+                const label = li.querySelector('.label').textContent;
+                const input = li.querySelector('input');
+                if (!input) continue;
+                const value = input.value.trim();
+                switch (label) {
+                    case 'DOB:':
+                        if (!/^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/.test(value)) {
+                            alert('Please enter DOB in MM/DD/YYYY format.');
+                            return false;
+                        }
+                        break;
+                    case 'Email:':
+                        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                            alert('Please enter a valid email address.');
+                            return false;
+                        }
+                        break;
+                    case 'Mobile Number:':
+                        if (!/^\+?\d{7,15}$/.test(value.replace(/\s+/g, ''))) {
+                            alert('Please enter a valid mobile number.');
+                            return false;
+                        }
+                        break;
+                    case 'Password:':
+                        // Password can be empty to keep unchanged
+                        break;
+                    default:
+                        if (value.length === 0) {
+                            alert(`Please enter a valid ${label.replace(':', '')}.`);
+                            return false;
+                        }
+                }
+            }
+            return true;
+        }
+
+        // Attach handlers on initial load
+        attachEditSaveHandlers();
+    </script>
+</body>
+</html>

@@ -22,48 +22,48 @@ body {
   
 }
 
-.nav-left {
+.nav-left-navbar{
     display: flex;
     align-items: center;
     gap: 30px;  /* Space between logo and left menu items */
 }
 
-.nav-right {
+.nav-right-navbar {
     display: flex;
     align-items: center;
     margin-right: 80px;
     gap: 30px;  /* Increased gap for better spacing */
 }
 
-.logo {
+.logo-navbar {
     font-size: 24px;
     font-weight: bold;
     color: #2d3e50;
     margin-left: 80px;
 }
 
-.logo .dot {
+.logo-navbar .dot-navbar {
     color: #007bff;
 }
 
-.nav-links {
+.nav-links-navbar {
     display: flex;
     gap: 20px;
     list-style: none;
 }
 
-.nav-links a {
+.nav-links-navbar a {
     text-decoration: none;
     color: #333;
     font-size: 16px;
     padding: 8px 12px;
 }
 
-.nav-links a:hover {
+.nav-links-navbar a:hover {
     color: #007bff;
 }
 
-.new-badge {
+.new-badge-navbar {
     background-color: #007bff;
     color: white;
     font-size: 10px;
@@ -72,44 +72,14 @@ body {
     margin-left: 5px;
 }
 
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: white;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    list-style: none;
-    min-width: 150px;
-}
-
-.dropdown-menu li {
-    padding: 8px;
-}
-
-.dropdown-menu li a {
-    display: block;
-    padding: 8px 12px;
-    color: black;
-    text-decoration: none;
-}
-
-.dropdown-menu li a:hover {
-    background-color: #f0f0f0;
-}
-
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-.profile-icon img {
+.profile-icon-navbar img {
     width: 35px;
     height: 35px;
     border-radius: 50%;
     cursor: pointer;
 }
 
-.auth-button {
+.auth-button-navbar {
     padding: 8px 20px;
     border: 2px solid #007bff;
     border-radius: 6px;
@@ -122,7 +92,7 @@ body {
     transition: background-color 0.2s;
 }
 
-.auth-button:hover {
+.auth-button-navbar:hover {
     background-color: #007bff;
     color: white;
 }
