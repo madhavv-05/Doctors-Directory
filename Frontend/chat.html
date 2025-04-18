@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Chat Popup</title>
+    <script src="chat.js"></script>
+    
+</head>
+<body>
+    <div id="chatPopup" class="chat-popup">
+        <div class="chat-header" id="chatToggle">
+            <span class="title">Chat</span>
+            <span class="toggle-arrow">&#9650;</span>
+        </div>
+        
+        <div class="chat-body" style="display:none;">
+            <div class="chat-list" id="chatList">
+                <div class="chat-list-item" data-chat="chat1">Chat 1</div>
+                <div class="chat-list-item" data-chat="chat2">Chat 2</div>
+                <div class="chat-list-item" data-chat="chat3">Chat 3</div>
+            </div>
+            <div class="chat-messages" id="chatMessages" style="display:none;">
+                <!-- Messages will be displayed here -->
+            </div>
+        </div>
+        
+        
+      
+    </div>
+
+</body>
+</html>

@@ -339,7 +339,7 @@ body {
                         <img src="images/speciality.jpeg" alt="">
                     </div>
                     <h3>Dermatologist</h3>
-                    <a href="#" class="consult-link">CONSULT NOW</a>
+                    <a href="SearchResults.html" class="consult-link">CONSULT NOW</a>
                 </div>
                 <!-- More specialty cards -->
             
@@ -348,7 +348,7 @@ body {
                         <img src="images/speciality.jpeg" alt="">
                     </div>
                     <h3>Dermatologist</h3>
-                    <a href="#" class="consult-link">CONSULT NOW</a>
+                    <a href="SearchResults.html" class="consult-link">CONSULT NOW</a>
                 </div>
                 <!-- More specialty cards -->
             
@@ -357,7 +357,7 @@ body {
                         <img src="images/speciality.jpeg" alt="">
                     </div>
                     <h3>Dermatologist</h3>
-                    <a href="#" class="consult-link">CONSULT NOW</a>
+                    <a href="SearchResults.html" class="consult-link">CONSULT NOW</a>
                 </div>
                 <!-- More specialty cards -->
             </div>
@@ -377,7 +377,7 @@ body {
                     </div>
                     <h3>Dr. John Smith</h3>
                     <p>Cardiologist</p>
-                    <a href="#" class="consult-link">BOOK NOW</a>
+                    <a href="SearchResults.html" class="consult-link">BOOK NOW</a>
                 </div>
                 <div class="item-card">
                     <div class="icon-circle">
@@ -385,7 +385,7 @@ body {
                     </div>
                     <h3>Dr. John Smith</h3>
                     <p>Cardiologist</p>
-                    <a href="#" class="consult-link">BOOK NOW</a>
+                    <a href="SearchResults.html" class="consult-link">BOOK NOW</a>
                 </div>
                 <div class="item-card">
                     <div class="icon-circle">
@@ -583,6 +583,20 @@ body {
         
       
     </style>
+   <link rel="stylesheet" href="chat.css">
+   <div id="chat-container"></div>
+   <script>
+     fetch('chat.html')
+       .then(res => res.text())
+       .then(html => {
+         document.getElementById('chat-container').innerHTML = html;
+         const script = document.createElement('script');
+         script.src = 'chat.js';
+         document.body.appendChild(script);
+       });
+   </script>
+
 
 </body>
 </html>
+

@@ -72,6 +72,71 @@ body {
             color: #123e70;
         }
        
+        /* Modal styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.5); 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .modal-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+        .modal-body p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .payment-methods {
+            margin: 15px 0;
+        }
+        .payment-methods label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .modal-footer {
+            text-align: right;
+        }
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #ccc;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background-color: #999;
+        }
     </style>
 </head>
 <body>
@@ -115,6 +180,27 @@ body {
                 
             </div>
 
+            <!-- Modal popup for review and payment -->
+            <div id="reviewModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+                <div class="modal-content">
+                    <div class="modal-header" id="modalTitle">Review Your Appointment</div>
+                    <div class="modal-body">
+                        <p><strong>Date:</strong> <span id="reviewDate"></span></p>
+                        <p><strong>Time Slot:</strong> <span id="reviewSlot"></span></p>
+                        <p><strong>Fees:</strong> ₹ 500</p>
+                        <div class="payment-methods">
+                            <p><strong>Select Payment Method:</strong></p>
+                            <label><input type="radio" name="paymentMethod" value="creditCard" checked> Credit Card</label>
+                            <label><input type="radio" name="paymentMethod" value="paypal"> RazorPay</label>
+                            <label><input type="radio" name="paymentMethod" value="upi"> UPI</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                        <button class="btn btn-primary" id="payBtn" href="BookingConfirmation.html">Make Payment</button>
+                    </div>
+                </div>
+            </div>
 
             <script>
                 const slotsByDate = {
@@ -125,6 +211,12 @@ body {
 
                 const dateInput = document.getElementById('appointment-date');
                 const slotsContainer = document.getElementById('available-slots');
+
+                const reviewModal = document.getElementById('reviewModal');
+                const reviewDate = document.getElementById('reviewDate');
+                const reviewSlot = document.getElementById('reviewSlot');
+                const cancelBtn = document.getElementById('cancelBtn');
+                const payBtn = document.getElementById('payBtn');
 
                 dateInput.addEventListener('change', () => {
                     const selectedDate = dateInput.value;
@@ -167,15 +259,36 @@ body {
                         });
 
                         slotButton.addEventListener('click', () => {
-                            // Redirect to booking confirmation page with query params
-                            const url = `BookingConfirmation.html?date=${selectedDate}&time=${encodeURIComponent(slot)}`;
-                            window.location.href = url;
+                            // Show review modal with selected date and slot
+                            reviewDate.textContent = selectedDate;
+                            reviewSlot.textContent = slot;
+                            reviewModal.style.display = 'block';
+                            reviewModal.setAttribute('aria-hidden', 'false');
                         });
 
                         slotsList.appendChild(slotButton);
                     });
 
                     slotsContainer.appendChild(slotsList);
+                });
+
+                cancelBtn.addEventListener('click', () => {
+                    reviewModal.style.display = 'none';
+                    reviewModal.setAttribute('aria-hidden', 'true');
+                });
+
+                payBtn.addEventListener('click', () => {
+                    const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+                    window.location.href="BookingConfirmation.html";
+                    
+                });
+
+                // Close modal when clicking outside modal content
+                window.addEventListener('click', (event) => {
+                    if (event.target === reviewModal) {
+                        reviewModal.style.display = 'none';
+                        reviewModal.setAttribute('aria-hidden', 'true');
+                    }
                 });
             </script>
         </div>
