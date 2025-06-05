@@ -152,21 +152,17 @@ body {
     <center>
     <div class="container">
         <div class="left-panel">
-            <img src="images/doctor.png" alt="Doctor Photo" />
-            <h2>Dr. John Doe</h2>
-            <p>Cardiologist</p>
-            <p>City Hospital</p>
-            <p><a href="mailto:johndoe@example.com" style="color: #a8c4ff; ">johndoe@example.com</a></p>
-            <p><a href="tel:+1234567890" style="color: #a8c4ff;">+1 234 567 890</a></p>
+            <img id="doctor-photo" src="" alt="Doctor Photo" />
+            <h2 id="doctor-name"></h2>
+            <p id="doctor-specialty"></p>
+            <p id="doctor-hospital"></p>
+            <p><a id="doctor-email" href="" style="color: #a8c4ff;"></a></p>
+            <p><a id="doctor-phone" href="" style="color: #a8c4ff;"></a></p>
         </div>
         <div class="right-panel">
             
-            <div class="profile-info">
-                <p><strong>Experience:</strong> 15 years in cardiology and cardiovascular surgery.</p>
-                <p><strong>Education:</strong> MD from Harvard Medical School.</p>
-                <p><strong>Specialties:</strong> Heart disease, hypertension, cardiac surgery.</p>
-                <p><strong>Bio:</strong> Dr. John Doe is a highly experienced cardiologist dedicated to providing the best care for his patients. He has published numerous research papers and is a member of several professional medical associations.</p>
-                <p><strong>Fees:</strong> ₹ 500                </p>
+            <div class="profile-info" id="profile-info">
+                <!-- Dynamic profile info will be inserted here -->
             </div>
            
             <div id="appointment-scheduler" style="margin-top: 20px;">
@@ -202,97 +198,141 @@ body {
                 </div>
             </div>
 
-            <script>
-                const slotsByDate = {
-                    "2024-06-01": ["09:00 AM", "10:00 AM", "02:00 PM", "04:00 PM"],
-                    "2024-06-02": ["11:00 AM", "01:00 PM", "03:00 PM"],
-                    "2024-06-03": ["09:30 AM", "12:00 PM", "03:30 PM", "05:00 PM"]
-                };
+                <script>
+                    const doctorProfile = {
+                        photoSrc: "images/doctor.png",
+                        photoAlt: "Doctor Photo",
+                        name: "Dr. John Doe",
+                        specialty: "Cardiologist",
+                        hospital: "City Hospital",
+                        email: "johndoe@example.com",
+                        phone: "+1 234 567 890",
+                        profileInfo: [
+                            { label: "Experience", value: "15 years in cardiology and cardiovascular surgery." },
+                            { label: "Education", value: "MD from Harvard Medical School." },
+                            { label: "Specialties", value: "Heart disease, hypertension, cardiac surgery." },
+                            { label: "Bio", value: "Dr. John Doe is a highly experienced cardiologist dedicated to providing the best care for his patients. He has published numerous research papers and is a member of several professional medical associations." },
+                            { label: "Fees", value: "₹ 500" }
+                        ]
+                    };
 
-                const dateInput = document.getElementById('appointment-date');
-                const slotsContainer = document.getElementById('available-slots');
+                    function renderDoctorProfile() {
+                        document.getElementById("doctor-photo").src = doctorProfile.photoSrc;
+                        document.getElementById("doctor-photo").alt = doctorProfile.photoAlt;
+                        document.getElementById("doctor-name").textContent = doctorProfile.name;
+                        document.getElementById("doctor-specialty").textContent = doctorProfile.specialty;
+                        document.getElementById("doctor-hospital").textContent = doctorProfile.hospital;
+                        const emailLink = document.getElementById("doctor-email");
+                        emailLink.href = "mailto:" + doctorProfile.email;
+                        emailLink.textContent = doctorProfile.email;
+                        const phoneLink = document.getElementById("doctor-phone");
+                        phoneLink.href = "tel:" + doctorProfile.phone;
+                        phoneLink.textContent = doctorProfile.phone;
 
-                const reviewModal = document.getElementById('reviewModal');
-                const reviewDate = document.getElementById('reviewDate');
-                const reviewSlot = document.getElementById('reviewSlot');
-                const cancelBtn = document.getElementById('cancelBtn');
-                const payBtn = document.getElementById('payBtn');
-
-                dateInput.addEventListener('change', () => {
-                    const selectedDate = dateInput.value;
-                    slotsContainer.innerHTML = '';
-
-                    if (!selectedDate) {
-                        slotsContainer.innerHTML = '<p>Please select a date to see available slots.</p>';
-                        return;
-                    }
-
-                    const slots = slotsByDate[selectedDate];
-                    if (!slots || slots.length === 0) {
-                        slotsContainer.innerHTML = '<p>No available slots for the selected date.</p>';
-                        return;
-                    }
-
-                    const slotsList = document.createElement('div');
-                    slotsList.style.display = 'flex';
-                    slotsList.style.gap = '12px';
-                    slotsList.style.justifyContent = 'center';
-
-                    slots.forEach(slot => {
-                        const slotButton = document.createElement('button');
-                        slotButton.textContent = slot;
-                        slotButton.style.padding = '8px 16px';
-                        slotButton.style.backgroundColor = '#007bff';
-                        slotButton.style.color = 'white';
-                        slotButton.style.border = 'none';
-                        slotButton.style.borderRadius = '6px';
-                        slotButton.style.cursor = 'pointer';
-                        slotButton.style.userSelect = 'none';
-                        slotButton.style.boxShadow = '0 2px 6px rgba(0, 123, 255, 0.5)';
-                        slotButton.style.transition = 'background-color 0.3s ease';
-
-                        slotButton.addEventListener('mouseenter', () => {
-                            slotButton.style.backgroundColor = '#0056b3';
+                        const profileInfoContainer = document.getElementById("profile-info");
+                        profileInfoContainer.innerHTML = "";
+                        doctorProfile.profileInfo.forEach(item => {
+                            const p = document.createElement("p");
+                            p.innerHTML = `<strong>${item.label}:</strong> ${item.value}`;
+                            profileInfoContainer.appendChild(p);
                         });
-                        slotButton.addEventListener('mouseleave', () => {
+                    }
+
+                    const slotsByDate = {
+                        "2024-06-01": ["09:00 AM", "10:00 AM", "02:00 PM", "04:00 PM"],
+                        "2024-06-02": ["11:00 AM", "01:00 PM", "03:00 PM"],
+                        "2024-06-03": ["09:30 AM", "12:00 PM", "03:30 PM", "05:00 PM"]
+                    };
+
+                    const dateInput = document.getElementById('appointment-date');
+                    const slotsContainer = document.getElementById('available-slots');
+
+                    const reviewModal = document.getElementById('reviewModal');
+                    const reviewDate = document.getElementById('reviewDate');
+                    const reviewSlot = document.getElementById('reviewSlot');
+                    const cancelBtn = document.getElementById('cancelBtn');
+                    const payBtn = document.getElementById('payBtn');
+
+                    dateInput.addEventListener('change', () => {
+                        const selectedDate = dateInput.value;
+                        slotsContainer.innerHTML = '';
+
+                        if (!selectedDate) {
+                            slotsContainer.innerHTML = '<p>Please select a date to see available slots.</p>';
+                            return;
+                        }
+
+                        const slots = slotsByDate[selectedDate];
+                        if (!slots || slots.length === 0) {
+                            slotsContainer.innerHTML = '<p>No available slots for the selected date.</p>';
+                            return;
+                        }
+
+                        const slotsList = document.createElement('div');
+                        slotsList.style.display = 'flex';
+                        slotsList.style.gap = '12px';
+                        slotsList.style.justifyContent = 'center';
+
+                        slots.forEach(slot => {
+                            const slotButton = document.createElement('button');
+                            slotButton.textContent = slot;
+                            slotButton.style.padding = '8px 16px';
                             slotButton.style.backgroundColor = '#007bff';
+                            slotButton.style.color = 'white';
+                            slotButton.style.border = 'none';
+                            slotButton.style.borderRadius = '6px';
+                            slotButton.style.cursor = 'pointer';
+                            slotButton.style.userSelect = 'none';
+                            slotButton.style.boxShadow = '0 2px 6px rgba(0, 123, 255, 0.5)';
+                            slotButton.style.transition = 'background-color 0.3s ease';
+
+                            slotButton.addEventListener('mouseenter', () => {
+                                slotButton.style.backgroundColor = '#0056b3';
+                            });
+                            slotButton.addEventListener('mouseleave', () => {
+                                slotButton.style.backgroundColor = '#007bff';
+                            });
+
+                            slotButton.addEventListener('click', () => {
+                                // Show review modal with selected date and slot
+                                reviewDate.textContent = selectedDate;
+                                reviewSlot.textContent = slot;
+                                reviewModal.style.display = 'block';
+                                reviewModal.setAttribute('aria-hidden', 'false');
+                            });
+
+                            slotsList.appendChild(slotButton);
                         });
 
-                        slotButton.addEventListener('click', () => {
-                            // Show review modal with selected date and slot
-                            reviewDate.textContent = selectedDate;
-                            reviewSlot.textContent = slot;
-                            reviewModal.style.display = 'block';
-                            reviewModal.setAttribute('aria-hidden', 'false');
-                        });
-
-                        slotsList.appendChild(slotButton);
+                        slotsContainer.appendChild(slotsList);
                     });
 
-                    slotsContainer.appendChild(slotsList);
-                });
-
-                cancelBtn.addEventListener('click', () => {
-                    reviewModal.style.display = 'none';
-                    reviewModal.setAttribute('aria-hidden', 'true');
-                });
-
-                payBtn.addEventListener('click', () => {
-                    const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-                    window.location.href="BookingConfirmation.html";
-                    
-                });
-
-                // Close modal when clicking outside modal content
-                window.addEventListener('click', (event) => {
-                    if (event.target === reviewModal) {
+                    cancelBtn.addEventListener('click', () => {
                         reviewModal.style.display = 'none';
                         reviewModal.setAttribute('aria-hidden', 'true');
-                    }
-                });
-            </script>
+                    });
+
+                    payBtn.addEventListener('click', () => {
+                        const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+                        window.location.href="BookingConfirmation.html";
+                        
+                    });
+
+                    // Close modal when clicking outside modal content
+                    window.addEventListener('click', (event) => {
+                        if (event.target === reviewModal) {
+                            reviewModal.style.display = 'none';
+                            reviewModal.setAttribute('aria-hidden', 'true');
+                        }
+                    });
+
+                    document.addEventListener("DOMContentLoaded", () => {
+                        renderDoctorProfile();
+                    });
+                </script>
         </div>
     </div>
+    
 </center>
    
 </body>

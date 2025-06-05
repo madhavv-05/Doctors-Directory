@@ -325,116 +325,109 @@ body {
         </div>
     </div>
 
-    <section class="categories-section">
-        <!-- Trending Specialties -->
-        <div class="category-container">
-            <div class="category-header">
-                <h2>Consult doctors online for any Specialty</h2>
-                <p>Private online consultations with verified doctors in all specialists</p>
-               
-            </div>
-            <div class="items-grid">
-                <div class="item-card">
-                    <div class="icon-circle">
-                        <img src="images/speciality.jpeg" alt="">
-                    </div>
-                    <h3>Dermatologist</h3>
-                    <a href="SearchResults.html" class="consult-link">CONSULT NOW</a>
-                </div>
-                <!-- More specialty cards -->
-            
-                <div class="item-card">
-                    <div class="icon-circle">
-                        <img src="images/speciality.jpeg" alt="">
-                    </div>
-                    <h3>Dermatologist</h3>
-                    <a href="SearchResults.html" class="consult-link">CONSULT NOW</a>
-                </div>
-                <!-- More specialty cards -->
-            
-                <div class="item-card">
-                    <div class="icon-circle">
-                        <img src="images/speciality.jpeg" alt="">
-                    </div>
-                    <h3>Dermatologist</h3>
-                    <a href="SearchResults.html" class="consult-link">CONSULT NOW</a>
-                </div>
-                <!-- More specialty cards -->
-            </div>
-        </div>
-
-        <!-- Featured Doctors -->
-        <div class="category-container">
-            <div class="category-header">
-                <h2>Top Rated Doctors</h2>
-                <p>Book appointments with top-rated doctors</p>
-              
-            </div>
-            <div class="items-grid">
-                <div class="item-card">
-                    <div class="icon-circle">
-                        <img src="images/doctor.png" alt="">
-                    </div>
-                    <h3>Dr. John Smith</h3>
-                    <p>Cardiologist</p>
-                    <a href="SearchResults.html" class="consult-link">BOOK NOW</a>
-                </div>
-                <div class="item-card">
-                    <div class="icon-circle">
-                        <img src="images/doctor.png" alt="">
-                    </div>
-                    <h3>Dr. John Smith</h3>
-                    <p>Cardiologist</p>
-                    <a href="SearchResults.html" class="consult-link">BOOK NOW</a>
-                </div>
-                <div class="item-card">
-                    <div class="icon-circle">
-                        <img src="images/doctor.png" alt="">
-                    </div>
-                    <h3>Dr. John Smith</h3>
-                    <p>Cardiologist</p>
-                    <a href="#" class="consult-link">BOOK NOW</a>
-                </div>
-                <!-- More doctor cards -->
-            </div>
-            
-        </div>
-        <div class="category-container">
-            <div class="category-header">
-                <h2>Top Rated Hospitals</h2>
-                <p>Explore Top Rated Hospitals</p>
-              
-            </div>
-            <div class="items-grid">
-                <div class="item-card">
-                    <div class="icon-circle">
-                        <img src="images/hospital.png" alt="">
-                    </div>
-                    <h3>Apollo Hospital</h3>
-                    <p>Multi-speciality </p>
-                    <a href="#" class="consult-link">BOOK NOW</a>
-                </div>
-                <div class="item-card">
-                    <div class="icon-circle">
-                        <img src="images/hospital.png" alt="">
-                    </div>
-                    <h3>Apollo Hospital</h3>
-                    <p>Multi-speciality</p>
-                    <a href="#" class="consult-link">BOOK NOW</a>
-                </div>
-                <div class="item-card">
-                    <div class="icon-circle">
-                        <img src="images/hospital.png" alt="">
-                    </div>
-                    <h3>Apollo Hospital</h3>
-                    <p>Multi-speciality</p>
-                    <a href="#" class="consult-link">BOOK NOW</a>
-                </div>
-                <!-- More doctor cards -->
-            </div>
-            
-        </div>
+    <section class="categories-section" id="categoriesSection">
+        <!-- Dynamic content will be rendered here -->
     </section>
+
+    <script>
+        const categoriesData = [
+            {
+                title: "Consult doctors online for any Specialty",
+                description: "Private online consultations with verified doctors in all specialists",
+                items: [
+                    { imgSrc: "images/speciality.jpeg", title: "Dermatologist", link: "SearchResults.html" },
+                    { imgSrc: "images/speciality.jpeg", title: "Cardiologist", link: "SearchResults.html" },
+                    { imgSrc: "images/speciality.jpeg", title: "Dentist", link: "SearchResults.html" }
+                ]
+            },
+            {
+                title: "Top Rated Doctors",
+                description: "Book appointments with top-rated doctors",
+                items: [
+                    { imgSrc: "images/doctor.png", title: "Dr. John Smith", subtitle: "Cardiologist", link: "SearchResults.html" },
+                    { imgSrc: "images/doctor.png", title: "Dr. Jane Doe", subtitle: "Dermatologist", link: "SearchResults.html" },
+                    { imgSrc: "images/doctor.png", title: "Dr. Emily Clark", subtitle: "Dentist", link: "#" }
+                ]
+            },
+            {
+                title: "Top Rated Hospitals",
+                description: "Explore Top Rated Hospitals",
+                items: [
+                    { imgSrc: "images/hospital.png", title: "Apollo Hospital", subtitle: "Multi-speciality", link: "#" },
+                    { imgSrc: "images/hospital.png", title: "City Hospital", subtitle: "Multi-speciality", link: "#" },
+                    { imgSrc: "images/hospital.png", title: "Green Valley Hospital", subtitle: "Multi-speciality", link: "#" }
+                ]
+            }
+        ];
+
+        function createCategorySection(category) {
+            const container = document.createElement('div');
+            container.className = 'category-container';
+
+            const header = document.createElement('div');
+            header.className = 'category-header';
+
+            const title = document.createElement('h2');
+            title.textContent = category.title;
+
+            const description = document.createElement('p');
+            description.textContent = category.description;
+
+            header.appendChild(title);
+            header.appendChild(description);
+            container.appendChild(header);
+
+            const itemsGrid = document.createElement('div');
+            itemsGrid.className = 'items-grid';
+
+            category.items.forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.className = 'item-card';
+
+                const iconCircle = document.createElement('div');
+                iconCircle.className = 'icon-circle';
+
+                const img = document.createElement('img');
+                img.src = item.imgSrc;
+                img.alt = item.title;
+
+                iconCircle.appendChild(img);
+                itemCard.appendChild(iconCircle);
+
+                const itemTitle = document.createElement('h3');
+                itemTitle.textContent = item.title;
+                itemCard.appendChild(itemTitle);
+
+                if (item.subtitle) {
+                    const subtitle = document.createElement('p');
+                    subtitle.textContent = item.subtitle;
+                    itemCard.appendChild(subtitle);
+                }
+
+                const link = document.createElement('a');
+                link.href = item.link;
+                link.className = 'consult-link';
+                link.textContent = item.subtitle ? 'BOOK NOW' : 'CONSULT NOW';
+
+                itemCard.appendChild(link);
+                itemsGrid.appendChild(itemCard);
+            });
+
+            container.appendChild(itemsGrid);
+            return container;
+        }
+
+        function renderCategories() {
+            const categoriesSection = document.getElementById('categoriesSection');
+            categoriesSection.innerHTML = '';
+            categoriesData.forEach(category => {
+                const categoryElement = createCategorySection(category);
+                categoriesSection.appendChild(categoryElement);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderCategories);
+    </script>
 
     <footer class="footer">
       

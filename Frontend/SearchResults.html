@@ -1,328 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Search Results - Doctor's Directory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: white;
+        }
+
+        .new-badge {
+            background-color: #007bff;
+            color: white;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            list-style: none;
+            min-width: 150px;
+        }
+
+        .dropdown-menu li {
+            padding: 8px;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 8px 12px;
+            color: black;
+            text-decoration: none;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .profile-icon img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .auth-button {
+            padding: 8px 20px;
+            border: 2px solid #007bff;
+            border-radius: 6px;
+            color: #007bff;
+            background: transparent;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .auth-button:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .filter-nav {
+            background: #354B87;
+            padding: 15px 0;
+            color: white;
+        }
+
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sort-group {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-results {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .verified-text {
+            color: #666;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .doctor-card {
+            display: flex;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+
+        .doctor-image {
+            position: relative;
+            width: 100px;
+        }
+
+        .doctor-image img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .ad-badge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 2px 6px;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+
+        .badge {
+            position: absolute;
+            bottom: -10px;
+            left: -10px;
+            width: 40px !important;
+            height: 40px;
+            border-radius: 50% !important;
+        }
+
+        .doctor-info {
+            flex: 1;
+        }
+
+        .doctor-info h2 {
+            color: #00b5b7;
+            margin-bottom: 10px;
+        }
+
+        .doctor-info p {
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .rating {
+            display: none;
+        }
+
+        .stories-link {
+            color: #00b5b7;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 200px;
+        }
+
+        .call-btn, .book-btn, .contact-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .call-btn {
+            background: #00b5b7;
+            color: white;
+        }
+
+        .book-btn {
+            background: #00b5b7;
+            color: white;
+        }
+
+        .contact-btn {
+            border: 1px solid #00b5b7;
+            background: white;
+            color: #00b5b7;
+        }
+
+        .availability {
+            color: #00b5b7;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .no-fee {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin: 0;
+        }
+    </style>
 </head>
-<style>
-    * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    background-color: white;
-}
-
-
-
-.new-badge {
-    background-color: #007bff;
-    color: white;
-    font-size: 10px;
-    padding: 2px 5px;
-    border-radius: 10px;
-    margin-left: 5px;
-}
-
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: white;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    list-style: none;
-    min-width: 150px;
-}
-
-.dropdown-menu li {
-    padding: 8px;
-}
-
-.dropdown-menu li a {
-    display: block;
-    padding: 8px 12px;
-    color: black;
-    text-decoration: none;
-}
-
-.dropdown-menu li a:hover {
-    background-color: #f0f0f0;
-}
-
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-.profile-icon img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.auth-button {
-    padding: 8px 20px;
-    border: 2px solid #007bff;
-    border-radius: 6px;
-    color: #007bff;
-    background: transparent;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-
-.auth-button:hover {
-    background-color: #007bff;
-    color: white;
-}
-    .filter-nav {
-        background: #354B87;
-        padding: 15px 0;
-        color: white;
-    }
-
-    .filter-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        padding: 0 20px;
-    }
-
-    .filter-btn {
-        background: transparent;
-        border: none;
-        color: white;
-        padding: 8px 15px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .sort-group {
-        margin-left: auto;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .search-results {
-        max-width: 1200px;
-        margin: 30px auto;
-        padding: 0 20px;
-    }
-
-    .verified-text {
-        color: #666;
-        margin: 15px 0;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .doctor-card {
-        display: flex;
-        padding: 20px;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        gap: 20px;
-    }
-
-    .doctor-image {
-        position: relative;
-        width: 100px;
-    }
-
-    .doctor-image img {
-        width: 100%;
-        border-radius: 8px;
-    }
-
-    .ad-badge {
-        position: absolute;
-        top: 0;
-        left: 0;
-        background: rgba(0,0,0,0.6);
-        color: white;
-        padding: 2px 6px;
-        font-size: 12px;
-        border-radius: 4px;
-    }
-
-    .badge {
-        position: absolute;
-        bottom: -10px;
-        left: -10px;
-        width: 40px !important;
-        height: 40px;
-        border-radius: 50% !important;
-    }
-
-    .doctor-info {
-        flex: 1;
-    }
-
-    .doctor-info h2 {
-        color: #00b5b7;
-        margin-bottom: 10px;
-    }
-
-    .doctor-info p {
-        margin-bottom: 8px;
-        color: #666;
-    }
-
-    .rating {
-        display: none;
-    }
-
-    .stories-link {
-        color: #00b5b7;
-        text-decoration: none;
-        font-size: 14px;
-        margin-top: 8px;
-        display: inline-block;
-    }
-
-    .action-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        min-width: 200px;
-    }
-
-    .call-btn, .book-btn, .contact-btn {
-        width: 100%;
-        padding: 10px;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-    }
-
-    .call-btn {
-        background: #00b5b7;
-        color: white;
-    }
-
-    .book-btn {
-        background: #00b5b7;
-        color: white;
-    }
-
-    .contact-btn {
-        border: 1px solid #00b5b7;
-        background: white;
-        color: #00b5b7;
-    }
-
-    .availability {
-        color: #00b5b7;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .no-fee {
-        text-align: center;
-        color: #666;
-        font-size: 12px;
-        margin: 0;
-    }
-</style>
 <body>
     <div id="navbar"></div>
 
-<script>
-  fetch("navbar.html")
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById("navbar").innerHTML = data;
-    });
-</script>
-<div class="filter-nav">
-    <div class="filter-container">
-        <div class="filter-group">
-            <button class="filter-btn">
-                Gender
-                <i class="fas fa-chevron-down"></i>
-            </button>
-        </div>
-        <div class="filter-group">
-            <button class="filter-btn">
-                Experience
-                <i class="fas fa-chevron-down"></i>
-            </button>
-        </div>
-        <div class="filter-group">
-            <button class="filter-btn">
-                All Filters
-                <i class="fas fa-chevron-down"></i>
-            </button>
-        </div>
-        <div class="sort-group">
-            <span>Sort By</span>
-            <button class="filter-btn">
-                Relevance
-                <i class="fas fa-chevron-down"></i>
-            </button>
-        </div>
-    </div>
-</div>
-
-<div class="search-results">
-    <h1>774 Dentists available in Bangalore</h1>
-    <p class="verified-text">
-        <i class="fas fa-check-circle"></i>
-        Book appointments with minimum wait-time & verified doctor details
-    </p>
-
-    <!-- Doctor Card -->
-    <div class="doctor-card">
-        <div class="doctor-image">
-            <img src="images/clinic-logo.png" alt="Cosmetic Dental Clinic">
-            <span class="ad-badge">AD</span>
-        </div>
-        <div class="doctor-info">
-            <h2><a href="DoctorProfile.html">Cosmetic Dental Clinic</a></h2>
-            <p class="specialty">5 Dentist</p>
-            <p class="experience">4 - 29 years experience</p>
-            <p class="location">Indiranagar</p>
-            <p class="fees">₹300 - ₹600 Consultation Fees</p>
-        </div>
-        <div class="action-buttons">
-            <button class="call-btn">Call Now</button>
-        </div>
-    </div>
-
-    <!-- Second Doctor Card -->
-    <div class="doctor-card">
-        <div class="doctor-image">
-            <img src="images/doctor-profile.jpg" alt="Dr. Sumanth Shetty">
-            <img src="images/practo-dental.png" alt="Practo Dental" class="badge">
-        </div>
-        <div class="doctor-info">
-            <h2><a href="DoctorProfile.html">Dr. Sumanth Shetty</a></h2>
-            <p class="specialty">Dentist</p>
-            <p class="experience">26 years experience overall</p>
-            <p class="location">Koramangala,Bangalore • Chisel Dental</p>
-            <p class="fees">₹300 Consultation fee at clinic</p>
-        </div>
-        <div class="action-buttons">
-            <div class="availability">
-                <i class="fas fa-calendar-check"></i>
-                Available Today
+    <script>
+      fetch("navbar.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("navbar").innerHTML = data;
+        });
+    </script>
+    <div class="filter-nav">
+        <div class="filter-container">
+            <div class="filter-group">
+                <button class="filter-btn">
+                    Gender
+                    <i class="fas fa-chevron-down"></i>
+                </button>
             </div>
-            <button class="book-btn">Book Clinic Visit</button>
-            <p class="no-fee">No Booking Fee</p>
-            <button class="contact-btn">Contact Clinic</button>
+            <div class="filter-group">
+                <button class="filter-btn">
+                    Experience
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <div class="filter-group">
+                <button class="filter-btn">
+                    All Filters
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <div class="sort-group">
+                <span>Sort By</span>
+                <button class="filter-btn">
+                    Relevance
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
         </div>
     </div>
-</div> 
+
+    <div class="search-results">
+        <h1 id="results-count"></h1>
+        <p class="verified-text">
+            <i class="fas fa-check-circle"></i>
+            Book appointments with minimum wait-time & verified doctor details
+        </p>
+    </div>
+
+    <script>
+        const doctorsData = [
+            {
+                id: 1,
+                name: "Cosmetic Dental Clinic",
+                profileLink: "DoctorProfile.html",
+                specialty: "5 Dentist",
+                experience: "4 - 29 years experience",
+                location: "Indiranagar",
+                fees: "₹300 - ₹600 Consultation Fees",
+                imageSrc: "images/clinic-logo.png",
+                imageAlt: "Cosmetic Dental Clinic",
+                isAd: true,
+                badges: [],
+                availability: null,
+                buttons: [
+                    { type: "call", text: "Call Now" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Dr. Sumanth Shetty",
+                profileLink: "DoctorProfile.html",
+                specialty: "Dentist",
+                experience: "26 years experience overall",
+                location: "Koramangala,Bangalore • Chisel Dental",
+                fees: "₹300 Consultation fee at clinic",
+                imageSrc: "images/doctor-profile.jpg",
+                imageAlt: "Dr. Sumanth Shetty",
+                isAd: false,
+                badges: [
+                    { src: "images/practo-dental.png", alt: "Practo Dental" }
+                ],
+                availability: "Available Today",
+                buttons: [
+                    { type: "book", text: "Book Clinic Visit" },
+                    { type: "contact", text: "Contact Clinic" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Dr. Sumanth Shetty",
+                profileLink: "DoctorProfile.html",
+                specialty: "Dentist",
+                experience: "26 years experience overall",
+                location: "Koramangala,Bangalore • Chisel Dental",
+                fees: "₹300 Consultation fee at clinic",
+                imageSrc: "images/doctor-profile.jpg",
+                imageAlt: "Dr. Sumanth Shetty",
+                isAd: false,
+                badges: [
+                    { src: "images/practo-dental.png", alt: "Practo Dental" }
+                ],
+                availability: "Available Today",
+                buttons: [
+                    { type: "book", text: "Book Clinic Visit" },
+                    { type: "contact", text: "Contact Clinic" }
+                ]
+            }
+        ];
+
+        function createDoctorCard(doctor) {
+            const card = document.createElement("div");
+            card.className = "doctor-card";
+
+            // Doctor Image container
+            const imageContainer = document.createElement("div");
+            imageContainer.className = "doctor-image";
+
+            const img = document.createElement("img");
+            img.src = doctor.imageSrc;
+            img.alt = doctor.imageAlt;
+            imageContainer.appendChild(img);
+
+            if (doctor.isAd) {
+                const adBadge = document.createElement("span");
+                adBadge.className = "ad-badge";
+                adBadge.textContent = "AD";
+                imageContainer.appendChild(adBadge);
+            }
+
+            // Badges
+            doctor.badges.forEach(badge => {
+                const badgeImg = document.createElement("img");
+                badgeImg.className = "badge";
+                badgeImg.src = badge.src;
+                badgeImg.alt = badge.alt;
+                imageContainer.appendChild(badgeImg);
+            });
+
+            card.appendChild(imageContainer);
+
+            // Doctor Info container
+            const info = document.createElement("div");
+            info.className = "doctor-info";
+
+            const name = document.createElement("h2");
+            const nameLink = document.createElement("a");
+            nameLink.href = doctor.profileLink;
+            nameLink.textContent = doctor.name;
+            name.appendChild(nameLink);
+            info.appendChild(name);
+
+            const specialty = document.createElement("p");
+            specialty.className = "specialty";
+            specialty.textContent = doctor.specialty;
+            info.appendChild(specialty);
+
+            const experience = document.createElement("p");
+            experience.className = "experience";
+            experience.textContent = doctor.experience;
+            info.appendChild(experience);
+
+            const location = document.createElement("p");
+            location.className = "location";
+            location.textContent = doctor.location;
+            info.appendChild(location);
+
+            const fees = document.createElement("p");
+            fees.className = "fees";
+            fees.textContent = doctor.fees;
+            info.appendChild(fees);
+
+            card.appendChild(info);
+
+            // Action Buttons container
+            const actions = document.createElement("div");
+            actions.className = "action-buttons";
+
+            if (doctor.availability) {
+                const availability = document.createElement("div");
+                availability.className = "availability";
+                const calendarIcon = document.createElement("i");
+                calendarIcon.className = "fas fa-calendar-check";
+                availability.appendChild(calendarIcon);
+                availability.appendChild(document.createTextNode(" " + doctor.availability));
+                actions.appendChild(availability);
+            }
+
+            doctor.buttons.forEach(button => {
+                const btn = document.createElement("button");
+                btn.className = button.type + "-btn";
+                btn.textContent = button.text;
+                actions.appendChild(btn);
+            });
+
+            card.appendChild(actions);
+
+            return card;
+        }
+
+        function renderDoctors() {
+            const container = document.querySelector(".search-results");
+            const resultsCount = document.getElementById("results-count");
+            resultsCount.textContent = `${doctorsData.length} Dentists available in Bangalore`;
+
+            // Remove existing doctor cards if any
+            const existingCards = container.querySelectorAll(".doctor-card");
+            existingCards.forEach(card => card.remove());
+
+            // Append new doctor cards dynamically
+            doctorsData.forEach(doctor => {
+                const card = createDoctorCard(doctor);
+                container.appendChild(card);
+            });
+        }
+
+        // Render doctors on page load
+        document.addEventListener("DOMContentLoaded", renderDoctors);
+    </script>
+</body>
+</html>

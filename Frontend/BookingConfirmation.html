@@ -71,10 +71,10 @@ button {
     <p>Your appointment has been successfully booked.</p>
 
     <div class="booking-details">
-      <p><strong>Doctor:</strong> Dr. Aisha Mehta</p>
-      <p><strong>Specialty:</strong> Dermatologist</p>
-      <p><strong>Date:</strong> April 18, 2025</p>
-      <p><strong>Time:</strong> 4:30 PM</p>
+      <p><strong>Doctor:</strong> <span id="doctorName"></span></p>
+      <p><strong>Specialty:</strong> <span id="specialty"></span></p>
+      <p><strong>Date:</strong> <span id="date"></span></p>
+      <p><strong>Time:</strong> <span id="time"></span></p>
       <p><strong>Booking ID:</strong> <span id="booking-id"></span></p>
     </div>
 
@@ -82,9 +82,29 @@ button {
   </div>
 
   <script>
+    const bookingDetails = {
+      doctorName: "Dr. Aisha Mehta",
+      specialty: "Dermatologist",
+      date: "April 18, 2025",
+      time: "4:30 PM",
+      bookingId: "ABC123456"
+    };
+
+    function renderBookingDetails() {
+      document.getElementById("doctorName").textContent = bookingDetails.doctorName;
+      document.getElementById("specialty").textContent = bookingDetails.specialty;
+      document.getElementById("date").textContent = bookingDetails.date;
+      document.getElementById("time").textContent = bookingDetails.time;
+      document.getElementById("booking-id").textContent = bookingDetails.bookingId;
+    }
+
     function goHome(){
       window.location.href="home.html";
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderBookingDetails();
+    });
   </script>
 </body>
 </html>
