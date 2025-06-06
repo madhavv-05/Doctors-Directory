@@ -563,31 +563,13 @@ body {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .footer-logo {
-            height: 30px;
-            margin-bottom: 10px;
-        }
-
-        .copyright {
-            color: #a7b6c2;
-            font-size: 14px;
-        }
+       
+       
 
         
       
     </style>
-   <link rel="stylesheet" href="chat.css">
-   <div id="chat-container"></div>
-   <script>
-     fetch('chat.html')
-       .then(res => res.text())
-       .then(html => {
-         document.getElementById('chat-container').innerHTML = html;
-         const script = document.createElement('script');
-         script.src = 'chat.js';
-         document.body.appendChild(script);
-       });
-   </script>
+   
 
 
 </body>
