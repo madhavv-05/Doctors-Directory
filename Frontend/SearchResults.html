@@ -93,6 +93,7 @@
             align-items: center;
             gap: 20px;
             padding: 0 20px;
+            flex-wrap: nowrap;
         }
 
         .filter-btn {
@@ -236,7 +237,84 @@
             font-size: 12px;
             margin: 0;
         }
+        .filter-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+}
+
+.filter-group {
+    position: relative;
+}
+
+.filter-btn {
+    padding: 10px 15px;
+    
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    color: #000;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 100;
+    min-width: 200px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown label {
+    display: block;
+    margin-bottom: 8px;
+}
+
     </style>
+    <script>
+function toggleDropdown(id) {
+    document.querySelectorAll('.dropdown').forEach(el => {
+        if (el.id !== id) el.style.display = 'none';
+    });
+
+    const dropdown = document.getElementById(id);
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+// Optional: Add event listener for sorting option change (placeholder)
+document.addEventListener('DOMContentLoaded', () => {
+    const sortRadios = document.querySelectorAll('input[name="sort"]');
+    sortRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            const selectedSort = e.target.value;
+            console.log('Selected sort:', selectedSort);
+            // TODO: Implement sorting logic here
+            // For now, just close the dropdown
+            document.getElementById('sort-dropdown').style.display = 'none';
+            // Update button text to selected option
+            const sortButton = document.querySelector('.sort-group > .filter-btn');
+            const label = e.target.parentElement.textContent.trim();
+            sortButton.childNodes[0].textContent = label + ' ';
+        });
+    });
+});
+
+// Optional: Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const isClickInside = event.target.closest('.filter-group');
+    if (!isClickInside) {
+        document.querySelectorAll('.dropdown').forEach(el => el.style.display = 'none');
+    }
+});
+</script>
+
 </head>
 <body>
     <div id="navbar"></div>
@@ -250,30 +328,80 @@
     </script>
     <div class="filter-nav">
         <div class="filter-container">
-            <div class="filter-group">
-                <button class="filter-btn">
-                    Gender
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-            </div>
-            <div class="filter-group">
-                <button class="filter-btn">
-                    Experience
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-            </div>
-            <div class="filter-group">
-                <button class="filter-btn">
-                    All Filters
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-            </div>
-            <div class="sort-group">
-                <span>Sort By</span>
-                <button class="filter-btn">
+    <!-- Gender Filter -->
+    <div class="filter-group">
+        <button class="filter-btn" onclick="toggleDropdown('gender-dropdown')">
+            Gender <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="dropdown" id="gender-dropdown">
+            <label><input type="checkbox" value="Male"> Male</label>
+            <label><input type="checkbox" value="Female"> Female</label>
+            <label><input type="checkbox" value="Other"> Other</label>
+        </div>
+    </div>
+
+    <!-- Experience Filter -->
+    <div class="filter-group">
+        <button class="filter-btn" onclick="toggleDropdown('experience-dropdown')">
+            Experience <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="dropdown" id="experience-dropdown">
+            <label><input type="checkbox" value="0-2"> 0-2 Years</label>
+            <label><input type="checkbox" value="3-5"> 3-5 Years</label>
+            <label><input type="checkbox" value="6+"> 6+ Years</label>
+        </div>
+    </div>
+
+    <!-- Fees Filter -->
+    <div class="filter-group">
+        <button class="filter-btn" onclick="toggleDropdown('fees-dropdown')">
+            Fees <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="dropdown" id="fees-dropdown">
+            <label><input type="checkbox" value="0-500"> ₹0 - ₹500</label>
+            <label><input type="checkbox" value="500-1000"> ₹500 - ₹1000</label>
+            <label><input type="checkbox" value="1000+"> ₹1000+</label>
+        </div>
+    </div>
+
+    <!-- Availability Filter -->
+    <div class="filter-group">
+        <button class="filter-btn" onclick="toggleDropdown('availability-dropdown')">
+            Availability <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="dropdown" id="availability-dropdown">
+            <label><input type="checkbox" value="Morning"> Morning</label>
+            <label><input type="checkbox" value="Afternoon"> Afternoon</label>
+            <label><input type="checkbox" value="Evening"> Evening</label>
+        </div>
+    </div>
+</div>
+
+            
+            <div class="sort-group filter-group">
+                <span style="margin-right: 10px;">Sort By</span>
+                <button class="filter-btn" onclick="toggleDropdown('sort-dropdown')">
                     Relevance
                     <i class="fas fa-chevron-down"></i>
                 </button>
+                <div class="dropdown" id="sort-dropdown" style="min-width: 250px; background-color: #1a1a1a; color: white; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);">
+                    <label style="padding: 8px 12px; cursor: pointer;">
+                        <input type="radio" name="sort" value="patient_stories" style="margin-right: 8px;">
+                        Number of patient stories - High to low
+                    </label>
+                    <label style="padding: 8px 12px; cursor: pointer;">
+                        <input type="radio" name="sort" value="experience" style="margin-right: 8px;">
+                        Experience - High to Low
+                    </label>
+                    <label style="padding: 8px 12px; cursor: pointer;">
+                        <input type="radio" name="sort" value="fee_high_low" style="margin-right: 8px;">
+                        Consultation Fee - High to Low
+                    </label>
+                    <label style="padding: 8px 12px; cursor: pointer;">
+                        <input type="radio" name="sort" value="fee_low_high" style="margin-right: 8px;">
+                        Consultation Fee - Low to High
+                    </label>
+                </div>
             </div>
         </div>
     </div>
