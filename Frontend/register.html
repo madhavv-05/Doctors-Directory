@@ -234,49 +234,61 @@
             <h2>Register</h2>
             <form id="registerForm">
                 <div class="form-group">
-                    <input type="text" id="firstName" placeholder="First Name" required>
-                    <input type="text" id="lastName" placeholder="Last Name" required>
+                    <input type="text" id="name" placeholder="Name" required>
+                    <input type="text" id="age" placeholder="Age" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" id="phone" placeholder="Phone Number" required>
+                    
                     <input type="email" id="email" placeholder="Email" required>
+                    <input type="text" id="address" placeholder="Address" >  
                 </div>
                 <div class="form-group">
-                    <input type="password" id="password" placeholder="Password" required>
-                    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                    <input type="text" id="city" placeholder="City" required>
+                    <input type="text" id="state" placeholder="State" required>
                 </div>
-                <div class="terms-container">
-                    <input type="checkbox" id="terms" required>
-                    <label for="terms">I agree to the Terms & Privacy Policy</label>
+                <div class="form-group">
+                    <input type="text" id="country" placeholder="Country" required>
+                    
                 </div>
-                <button type="submit" class="btn-primary">Create Account</button>
-                <p>Already have an account? <a href="index.html">Log in</a></p>
+                <div class="terms-container" style="margin-top:10px;">
+                    <input type="checkbox" id="registerAsDoctor" style="width:16px;height:16px;">
+                    <label for="registerAsDoctor" style="font-size:14px;">Register as a Doctor</label>
+                </div>
+                <div id="doctorFields" style="display:none; margin-top:20px;">
+                    <div class="form-group">
+                       
+                        <input type="text" id="specialization" placeholder="Specialization">
+                         <input type="text" id="workingOn" placeholder="Working on">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="fees" placeholder="Fees">
+                        <input type="number" id="experience" placeholder="Experience (years)">
+                    </div>
+                    
+                    
+                </div>
+                <button type="submit" class="btn-primary">Register</button>
+                
             </form>
-            <div class="divider">
-                <span>OR</span>
-            </div>
-            
-            <div class="google-btn-container">
-                <button class="google-btn">
-                    <img src="images/google.png" alt="Google Icon">
-                    Sign up with Google
-                </button>
-            </div>
+           
         </div>
     </div>
     <script>
+        // Toggle doctor fields
+        document.getElementById('registerAsDoctor').addEventListener('change', function() {
+            document.getElementById('doctorFields').style.display = this.checked ? 'block' : 'none';
+        });
+
         document.getElementById('registerForm').addEventListener('submit', function(event) {
             event.preventDefault();
             
             let firstName = document.getElementById('firstName').value.trim();
             let lastName = document.getElementById('lastName').value.trim();
             let phone = document.getElementById('phone').value.trim();
-            let email = document.getElementById('email').value.trim();
-            let password = document.getElementById('password').value;
-            let confirmPassword = document.getElementById('confirmPassword').value;
-            let terms = document.getElementById('terms').checked;
-            
-            if (firstName === '' || lastName === '' || phone === '' || email === '' || password === '' || confirmPassword === '') {
+            // let email = document.getElementById('email').value.trim();
+            let isDoctor = document.getElementById('registerAsDoctor').checked;
+
+            if (firstName === '' || lastName === '' || phone === '' || password === '' || confirmPassword === '') {
                 alert('All fields are required!');
                 return;
             }
@@ -296,15 +308,103 @@
                 alert('Passwords do not match!');
                 return;
             }
-            
-            if (!terms) {
-                alert('You must agree to the Terms & Privacy Policy!');
-                return;
+
+            if (isDoctor) {
+                let userId = document.getElementById('userId').value.trim();
+                let specialization = document.getElementById('specialization').value.trim();
+                let fees = document.getElementById('fees').value.trim();
+                let experience = document.getElementById('experience').value.trim();
+                let rating = document.getElementById('rating').value.trim();
+                let workingOn = document.getElementById('workingOn').value.trim();
+                let availability = document.getElementById('availability').checked;
+
+                if (!userId || !specialization || !fees || !experience || !rating || !workingOn) {
+                    alert('Please fill all doctor details!');
+                    return;
+                }
+                // You can handle doctor registration logic here
             }
-            
+
             alert('Registration successful!');
             document.getElementById('registerForm').reset();
+            document.getElementById('doctorFields').style.display = 'none';
         });
+    </script>
+
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("registerForm");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const contact = localStorage.getItem("contact");
+        if (!contact) {
+            alert("Please verify OTP first.");
+            return;
+        }
+
+        const formData = new FormData();
+
+        // Core user fields
+        formData.append("mobile_number", contact);
+        formData.append("email", document.getElementById("email").value);
+        formData.append("name", document.getElementById("name").value);
+        formData.append("age", document.getElementById("age").value);
+        formData.append("address", document.getElementById("address").value);
+        formData.append("city", document.getElementById("city").value);
+        formData.append("state", document.getElementById("state").value);
+        formData.append("country", document.getElementById("country").value);
+
+      
+
+        // Doctor-specific logic
+        const isDoctor = document.getElementById("registerAsDoctor").checked;
+
+        
+        if (isDoctor) {
+            formData.append("user_type", "doctor");
+
+            formData.append("specialization", document.getElementById("specialization").value);
+            formData.append("fees", document.getElementById("fees").value);
+            formData.append("experience", document.getElementById("experience").value);
+            
+            formData.append("working_on", document.getElementById("workingOn").value);
+        }
+
+        try {
+            const response = await fetch("http://127.0.0.1:8000/accounts/register/", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Registration successful!");
+                console.log("Tokens:", data);
+                localStorage.setItem("access", data.access);
+                localStorage.setItem("refresh", data.refresh);
+                localStorage.setItem("user_type", data.user_type);
+                if(data.user_type==="doctor"){
+                    window.location.href = "DoctorHome.html";
+                }
+                else{
+               window.location.href = "home.html";
+                }
+            } else {
+                alert("Registration failed: " + JSON.stringify(data));
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred during registration.");
+        }
+    });
+});
+
     </script>
 </body>
 </html>
