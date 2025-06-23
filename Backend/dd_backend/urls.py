@@ -26,6 +26,7 @@ urlpatterns = [
     # Optional: other app urls
     path('otp/', include('otp_auth.urls')),
     path('api/auth/', include('jwt_authentication.urls')),
+    path('accounts/', include('accounts.urls')),
    
 ]
 

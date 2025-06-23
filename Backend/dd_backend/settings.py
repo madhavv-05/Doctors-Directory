@@ -44,10 +44,13 @@ INSTALLED_APPS = [
     'otp_auth',
     'jwt_authentication',
     'accounts',
+    'corsheaders',
 
 ]
 
 MIDDLEWARE = [
+        'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -164,3 +167,4 @@ SIMPLE_JWT = {
      "TOKEN_BLACKLIST_ENABLED": True,
 }
 
+CORS_ALLOW_ALL_ORIGINS = True
