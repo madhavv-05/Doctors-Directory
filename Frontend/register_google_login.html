@@ -6,6 +6,11 @@
     <title>Doctor's Directory - Register</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        .prefilled-field {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    cursor: not-allowed;
+}
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -235,7 +240,7 @@
             <form id="registerForm">
                 <div class="form-group">
                     <input type="text" id="name" placeholder="Name" required>
-                    <input type="text" id="age" placeholder="Age" required>
+                    <input type="text" id="mobile_number" placeholder="Contact Number" >
                 </div>
                 <div class="form-group">
                     
@@ -248,6 +253,7 @@
                 </div>
                 <div class="form-group">
                     <input type="text" id="country" placeholder="Country" required>
+                    <input type="text" id="age" placeholder="Age" required>
                     
                 </div>
                 <div class="terms-container" style="margin-top:10px;">
@@ -331,26 +337,36 @@
         });
     </script>
 
-
-
-<!-- Register user -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
+<!-- 
+for google sign in -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("registerForm");
+    const emailField = document.getElementById("email");
+    const nameField = document.getElementById("name");
+
+    // Prefill and lock fields if values exist in localStorage
+    const prefillEmail = localStorage.getItem('prefill_email');
+    const prefillName = localStorage.getItem('prefill_name');
+
+    if (prefillEmail) {
+        emailField.value = prefillEmail;
+        emailField.readOnly = true;  // Make field uneditable
+        emailField.classList.add('prefilled-field'); // For styling
+    }
+
+    if (prefillName) {
+        nameField.value = prefillName;
+        nameField.readOnly = true;
+        nameField.classList.add('prefilled-field');
+    }
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const contact = localStorage.getItem("contact");
-        if (!contact) {
-            alert("Please verify OTP first.");
-            return;
-        }
-
         const formData = new FormData();
 
         // Core user fields
-        formData.append("mobile_number", contact);
         formData.append("email", document.getElementById("email").value);
         formData.append("name", document.getElementById("name").value);
         formData.append("age", document.getElementById("age").value);
@@ -359,19 +375,13 @@
         formData.append("state", document.getElementById("state").value);
         formData.append("country", document.getElementById("country").value);
 
-      
-
         // Doctor-specific logic
         const isDoctor = document.getElementById("registerAsDoctor").checked;
-
-        
         if (isDoctor) {
             formData.append("user_type", "doctor");
-
             formData.append("specialization", document.getElementById("specialization").value);
             formData.append("fees", document.getElementById("fees").value);
             formData.append("experience", document.getElementById("experience").value);
-            
             formData.append("working_on", document.getElementById("workingOn").value);
         }
 
@@ -389,11 +399,10 @@
                 localStorage.setItem("access", data.access);
                 localStorage.setItem("refresh", data.refresh);
                 localStorage.setItem("user_type", data.user_type);
-                if(data.user_type==="doctor"){
+                if (data.user_type === "doctor") {
                     window.location.href = "DoctorHome.html";
-                }
-                else{
-               window.location.href = "home.html";
+                } else {
+                    window.location.href = "home.html";
                 }
             } else {
                 alert("Registration failed: " + JSON.stringify(data));
@@ -405,9 +414,7 @@
     });
 });
 
-    </script>
-
-<!-- to add prefille data when Google Login is used -->
+</script>
 
 </body>
 </html>

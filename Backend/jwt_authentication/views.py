@@ -10,6 +10,14 @@ from django.utils import timezone
 from .serializers import RegisterUserSerializer
 from rest_framework import status, permissions
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+from rest_framework import status
+from google.auth.transport import requests
+from django.conf import settings
+from google.oauth2 import id_token
+
+from accounts.models import CustomUser
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 
 
@@ -95,3 +103,88 @@ class LogoutView(APIView):
 
         except TokenError:
             return Response({"error": "Invalid token or already blacklisted"}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+# class GoogleLoginView(APIView):
+#     def post(self, request):
+#         id_token_str = request.data.get('id_token')
+
+#         if not id_token_str:
+#             return Response({"error": "ID token is required."}, status=400)
+
+#         try:
+#             # Validate token using Google's public key
+#             idinfo = id_token.verify_oauth2_token(
+#                 id_token_str, requests.Request(), settings.GOOGLE_CLIENT_ID
+#             )
+
+#             email = idinfo.get("email")
+#             name = idinfo.get("name")
+
+#             if not email:
+#                 return Response({"error": "Google token did not return email."}, status=400)
+
+#             try:
+#                 user = CustomUser.objects.get(email=email)
+#                 refresh = RefreshToken.for_user(user)
+#                 return Response({
+#                     "message": "Login successful",
+#                     "user_type": user.user_type,
+#                     "access": str(refresh.access_token),
+#                     "refresh": str(refresh)
+#                 }, status=200)
+
+#             except CustomUser.DoesNotExist:
+#                 # Email exists but user not in DB, prompt registration
+#                 return Response({
+#                     "message": "User not registered",
+#                     "name": name,
+#                     "email": email
+#                 }, status=202)
+
+#         except ValueError as e:
+#             return Response({"error": f"Invalid token: {str(e)}"}, status=401)
+#         except Exception as e:
+#             return Response({"error": str(e)}, status=500)
+
+
+class GoogleLoginView(APIView):
+    def post(self, request):
+        try:
+            print("Incoming data:", request.data)  # TEMP debug
+            id_token_str = request.data.get("id_token")
+            print("ID Token:", id_token_str)  # TEMP debug
+
+            if not id_token_str:
+                return Response({"error": "ID token missing"}, status=400)
+
+            idinfo = id_token.verify_oauth2_token(
+                id_token_str, requests.Request(), settings.GOOGLE_CLIENT_ID
+            )
+            print("Decoded ID Info:", idinfo)
+
+            email = idinfo.get("email")
+            name = idinfo.get("name")
+
+            if not email:
+                return Response({"error": "Email not found in token"}, status=400)
+
+            try:
+                user = CustomUser.objects.get(email=email)
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    "message": "Login successful",
+                    "user_type": user.user_type,
+                    "access": str(refresh.access_token),
+                    "refresh": str(refresh)
+                }, status=200)
+            except CustomUser.DoesNotExist:
+                return Response({
+                    "message": "User not registered",
+                    "name": name,
+                    "email": email
+                }, status=202)
+
+        except Exception as e:
+            print("EXCEPTION:", str(e)) 
+            return Response({"error": str(e)}, status=500)

@@ -16,13 +16,13 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = [
             'id', 'name', 'email', 'mobile_number', 'age',
-            'address', 'city', 'state', 'country', 'profile_picture',
+            'address', 'city', 'state', 'country',
             'user_type',  # will default to patient
             'specialization', 'fees', 'experience', 'working_on'
         ]
         extra_kwargs = {
             'name': {'required': True},
-            'mobile_number': {'required': True},
+            # 'mobile_number': {'required': True},
             'user_type': {'required': False, 'default': 'patient'},
         }
 

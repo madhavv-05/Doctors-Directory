@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor's Directory - Register</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
 <!-- <script src="script/login.js"></script> -->
     
     <style>
@@ -250,12 +252,23 @@
                 <span>OR</span>
             </div>
             
-            <div class="google-btn-container">
-                <button class="google-btn">
-                    <img src="images/google.png" alt="Google Icon">
-                    Sign in with Google
-                </button>
-            </div>
+            <div id="g_id_onload"
+     data-client_id="5967614858-spva4qif5q1h172m5nbucm572bc6h84l.apps.googleusercontent.com"
+     data-callback="handleGoogleSignIn"
+     data-auto_prompt="false">
+</div>
+
+<div class="google-btn-container">
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
+    </div>
+</div>
+
         </div>
     </div>
     <script>
@@ -348,6 +361,42 @@ document.getElementById('showOtpModalBtn').addEventListener('click', async funct
   }
 });
 
+</script>
+
+<!-- 
+For google sign-in -->
+<script>
+async function handleGoogleSignIn(response) {
+    const id_token = response.credential;
+    const res = await fetch("http://127.0.0.1:8000/api/auth/google-login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id_token })
+    });
+
+    const data = await res.json();
+
+    if (res.status === 200) {
+        // JWT received, user is authenticated
+        localStorage.setItem("access", data.access);
+        localStorage.setItem("refresh", data.refresh);
+
+        // Redirect based on user_type
+        if (data.user_type === "patient") {
+            window.location.href = "home.html";
+        } else if (data.user_type === "doctor") {
+            window.location.href = "DoctorHome.html";
+        }
+    } else if (res.status === 202) {
+        // User not registered
+        // Redirect to registration with prefilled info
+        localStorage.setItem("prefill_email", data.email);
+        localStorage.setItem("prefill_name", data.name);
+        window.location.href = "register_google_login.html";
+    } else {
+        alert("Login failed");
+    }
+}
 </script>
 </body>
 </html>

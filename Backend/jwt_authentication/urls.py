@@ -8,5 +8,6 @@ urlpatterns = [
     path('profile/', UserProfileView.as_view(), name='user_profile'),
     path('otp-login/', OTPLoginView.as_view(), name='otp_login'),
     path('register-user/', RegisterUserView.as_view(), name='register_user'),
+    path('google-login/', GoogleLoginView.as_view(), name='google-login'),
     path('logout/', LogoutView.as_view(), name='logout'),
 ]
