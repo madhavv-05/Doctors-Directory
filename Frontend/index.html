@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor's Directory - Register</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<!-- <script src="script/login.js"></script> -->
     
     <style>
         body {
@@ -225,32 +228,47 @@
             </div>
         </div>
         <div class="right-panel">
-            <h2>Welcome Back!</h2>
-            <form id="SignInForm" action="./home.html">
+            <h2>Welcome!</h2>
+            <form id="loginForm" >
                 
                
                 <div class="form-group">
-                    <input type="email_phone" id="email_phone" placeholder="Email/Mobile" >
-                    <input type="password" id="password" placeholder="Password" >
-                   
+                    <input type="text" id="contact" placeholder="Email/Mobile" >
                 </div>
                
-                <button type="submit" class="btn-primary">Sign In</button>
-                
-                <p>Do not have an account? <a href="SignUp.html">Sign Up</a></p>
-                <p><a href="ForgotPassword.html">Forgot Password? </a></p>
-                <p>hello</p>
+          <button type="submit" id="showOtpModalBtn" class="btn-primary">Verify with OTP</button>
             </form>
+
+            <!-- OTP Dialog Modal -->
+            <div id="otpModal" class="modal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+                <div class="modal-content" style="background: white; margin: 15% auto; padding: 20px; border-radius: 15px; width: 300px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);">
+                    <h3 style="text-align:center; color: #123e70; margin-bottom: 20px;">Enter OTP</h3>
+                    <input type="text" id="otpInput" placeholder="Enter OTP" style="width: 100%; padding: 12px 15px; margin-bottom: 15px; border: 2px solid #e1e1e1; border-radius: 8px; box-sizing: border-box;"/>
+                    <button id="otpSubmitBtn" class="btn-primary" style="width: 100%;">Verify OTP</button>
+                   
+            </div>
+            </div>
             <div class="divider">
                 <span>OR</span>
             </div>
             
-            <div class="google-btn-container">
-                <button class="google-btn">
-                    <img src="images/google.png" alt="Google Icon">
-                    Sign in with Google
-                </button>
-            </div>
+            <div id="g_id_onload"
+     data-client_id="5967614858-spva4qif5q1h172m5nbucm572bc6h84l.apps.googleusercontent.com"
+     data-callback="handleGoogleSignIn"
+     data-auto_prompt="false">
+</div>
+
+<div class="google-btn-container">
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
+    </div>
+</div>
+
         </div>
     </div>
     <script>
@@ -277,5 +295,108 @@
          
         // });
     </script>
+    <script> //for sending OTP
+    
+document.getElementById('showOtpModalBtn').addEventListener('click', async function(e) {
+    e.preventDefault();
+
+    const contact = document.getElementById("contact").value.trim();
+
+    if (!contact) {
+        alert("Please enter a valid mobile number or email.");
+        return;
+    }
+
+    try {
+        const res = await fetch("http://127.0.0.1:8000/otp/send/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ contact,method:"sms" })
+        });
+
+        if (res.ok) {
+            localStorage.setItem("contact", contact);
+            document.getElementById("otpModal").style.display = "block";
+        } else {
+            const err = await res.json();
+            alert(err.error || "Failed to send OTP");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Network error while sending OTP.");
+    }
+});
+
+</script>
+<script>//for OTP verification
+    document.getElementById("otpSubmitBtn").addEventListener("click", async (e) => {
+  e.preventDefault();
+  const code = document.getElementById("otpInput").value;
+  const contact = localStorage.getItem("contact");
+
+  const res = await fetch("http://localhost:8000/api/auth/otp-login/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ contact, code })
+  });
+
+  const data = await res.json();
+
+
+  if (res.status === 200 && data.access) {
+    localStorage.setItem("access", data.access);
+    localStorage.setItem("refresh", data.refresh);
+    if(data.user_type==="doctor"){
+                    window.location.href = "DoctorHome.html";
+                }
+                else{
+               window.location.href = "home.html";
+                }
+  } else if (res.status === 202) {
+    localStorage.setItem("contact", data.contact);
+    window.location.href = "register.html";
+ 
+  } else {
+    alert("OTP failed or expired");
+  }
+});
+
+</script>
+
+<!-- 
+For google sign-in -->
+<script>
+async function handleGoogleSignIn(response) {
+    const id_token = response.credential;
+    const res = await fetch("http://127.0.0.1:8000/api/auth/google-login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id_token })
+    });
+
+    const data = await res.json();
+
+    if (res.status === 200) {
+        // JWT received, user is authenticated
+        localStorage.setItem("access", data.access);
+        localStorage.setItem("refresh", data.refresh);
+
+        // Redirect based on user_type
+        if (data.user_type === "patient") {
+            window.location.href = "home.html";
+        } else if (data.user_type === "doctor") {
+            window.location.href = "DoctorHome.html";
+        }
+    } else if (res.status === 202) {
+        // User not registered
+        // Redirect to registration with prefilled info
+        localStorage.setItem("prefill_email", data.email);
+        localStorage.setItem("prefill_name", data.name);
+        window.location.href = "register_google_login.html";
+    } else {
+        alert("Login failed");
+    }
+}
+</script>
 </body>
 </html>

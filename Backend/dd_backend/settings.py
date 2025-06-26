@@ -40,12 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
     'otp_auth',
     'jwt_authentication',
     'accounts',
+    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
+        'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -152,12 +157,18 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 #JWT settings
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Token validity
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=59),  # Token validity
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Refresh token validity
     'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': False,
+    'BLACKLIST_AFTER_ROTATION': True,
 
     'AUTH_HEADER_TYPES': ('Bearer',),
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+     "TOKEN_BLACKLIST_ENABLED": True,
 }
 
+CORS_ALLOW_ALL_ORIGINS = True
+
+GOOGLE_CLIENT_ID = "5967614858-spva4qif5q1h172m5nbucm572bc6h84l.apps.googleusercontent.com"
+
+DEBUG = True
