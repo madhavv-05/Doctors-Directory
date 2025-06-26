@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+import socket
+IS_EC2 = not socket.gethostname().startswith("Omen-16")  # Your local machine hostname
+
 
 from pathlib import Path
 from datetime import timedelta
@@ -27,7 +30,8 @@ SECRET_KEY = 'django-insecure-53lzr!k&p50otjle6=xf5h!o%pj*ao$pm-$4)_5=2t(il5qpvx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1'] if not IS_EC2 else ['13.218.59.50', 'ec2-13-218-59-50.compute-1.amazonaws.com']
+
 
 
 # Application definition
@@ -83,13 +87,14 @@ WSGI_APPLICATION = 'dd_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'doctors_db',
         'USER': 'otp_user',
-        'PASSWORD': 'your_secure_password',
-        'HOST': 'localhost',
+        'PASSWORD': 'your_secure_password',  # Replace with your actual password
+        'HOST': 'doctors-db.culs4skck7mf.us-east-1.rds.amazonaws.com' if IS_EC2 else 'localhost',
         'PORT': '5432',
     }
 }
