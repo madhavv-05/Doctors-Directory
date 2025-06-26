@@ -1,0 +1,10 @@
+
+
+const host = window.location.hostname;
+
+export const API_BASE_URL =
+  host === "localhost" || host === "127.0.0.1"
+    ? "http://127.0.0.1:8000" // Local Django backend
+    : "http://13.218.59.50:8000"; 
+
+export default API_BASE_URL;

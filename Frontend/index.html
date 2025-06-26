@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor's Directory - Register</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+ 
 
 <!-- <script src="script/login.js"></script> -->
     
@@ -296,6 +297,7 @@
         // });
     </script>
     <script> //for sending OTP
+    import { API_BASE_URL } from './config.js';
     
 document.getElementById('showOtpModalBtn').addEventListener('click', async function(e) {
     e.preventDefault();
@@ -308,7 +310,7 @@ document.getElementById('showOtpModalBtn').addEventListener('click', async funct
     }
 
     try {
-        const res = await fetch("http://127.0.0.1:8000/otp/send/", {
+        const res = await fetch('${API_BASE_URL}/otp/send/', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ contact,method:"sms" })
@@ -329,12 +331,13 @@ document.getElementById('showOtpModalBtn').addEventListener('click', async funct
 
 </script>
 <script>//for OTP verification
+import { API_BASE_URL } from './config.js';
     document.getElementById("otpSubmitBtn").addEventListener("click", async (e) => {
   e.preventDefault();
   const code = document.getElementById("otpInput").value;
   const contact = localStorage.getItem("contact");
 
-  const res = await fetch("http://localhost:8000/api/auth/otp-login/", {
+  const res = await fetch('${API_BASE_URL}/api/auth/otp-login/', {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ contact, code })
@@ -366,9 +369,10 @@ document.getElementById('showOtpModalBtn').addEventListener('click', async funct
 <!-- 
 For google sign-in -->
 <script>
+import { API_BASE_URL } from './config.js';
 async function handleGoogleSignIn(response) {
     const id_token = response.credential;
-    const res = await fetch("http://127.0.0.1:8000/api/auth/google-login/", {
+    const res = await fetch('${API_BASE_URL}/api/auth/google-login/', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id_token })
