@@ -339,7 +339,7 @@
 
 <!-- 
 for google sign in -->
-<script>
+<script type="module">
     import { API_BASE_URL } from './config.js';
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("registerForm");
@@ -387,7 +387,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const response = await fetch('${API_BASE_URL}/accounts/register/', {
+            const response = await fetch(`${API_BASE_URL}/accounts/register/`, {
                 method: "POST",
                 body: formData
             });
