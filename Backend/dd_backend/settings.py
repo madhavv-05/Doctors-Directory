@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-53lzr!k&p50otjle6=xf5h!o%pj*ao$pm-$4)_5=2t(il5qpvx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1'] if not IS_EC2 else ['13.218.59.50', 'ec2-13-218-59-50.compute-1.amazonaws.com', 'doctors-directory-beta.vercel.app']
+ALLOWED_HOSTS = ['*']
 
 
 
