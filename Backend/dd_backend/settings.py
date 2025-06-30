@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'jwt_authentication',
     'accounts',
     'corsheaders',
+    'doctor'
 
 ]
 

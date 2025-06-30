@@ -1,31 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="NavBar.css">
-</head>
-
-<body>
-    <nav class="navbar">
-        <div class="nav-left-navbar">
-      
-            <div class="logo-navbar" onclick="window.location.href='home.html'"> 
-                <span class="dot-navbar"></span>
-                 <span class="brand-navbar">Doctor's Directory</span>
-            </div>
-       
-           
-            
-        </div>
-    
-        <div class="nav-right-navbar">
-           
-            <a href="Issues.html" class="nav-link-navbar" style="margin-right: 15px; color: #333; font-weight: normal; text-decoration: none;">Raise an Issue</a>
-            <a href="SignUp.html" class="auth-button-navbar">Login / Sign Up</a>
-        </div>
-    </nav>
-</body>
-
-</html>
+<!-- navbar.html -->
+<link rel="stylesheet" href="NavBar.css" />
+<nav class="navbar">
+  <div class="nav-left-navbar">
+    <div class="logo-navbar" onclick="window.location.href='home.html'">
+      <span class="dot-navbar"></span>
+      <span class="brand-navbar">Doctor's Directory</span>
+    </div>
+  </div>
+  <div class="nav-right-navbar" id="nav-user-section">
+    <a href="Issues.html" class="nav-link-navbar" style="margin-right: 15px;">Raise an Issue</a>
+    <span id="doctor-welcome-name" style="margin-right: 15px;"></span>
+    <a href="index.html" class="auth-button-navbar">Login</a>
+  </div>
+</nav>
