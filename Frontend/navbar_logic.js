@@ -1,4 +1,11 @@
-import { API_BASE_URL } from './config.js';
+function getBaseURL() {
+  const hostname = window.location.hostname;
+  if (hostname === "localhost" || hostname === "127.0.0.1") {
+    return "http://127.0.0.1:8000";
+  } else {
+    return "http://13.218.59.50";
+  }
+}
 
 async function fetchDoctorProfileIfLoggedIn() {
   const token = localStorage.getItem("access");
@@ -7,7 +14,7 @@ async function fetchDoctorProfileIfLoggedIn() {
   if (!token || !navSection) return;
 
   try {
-    const baseURL = API_BASE_URL
+    const baseURL = getBaseURL();
     const response = await fetch(`${baseURL}/doctor/home/`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -28,6 +35,11 @@ async function fetchDoctorProfileIfLoggedIn() {
     console.warn("Token expired or invalid", err);
     localStorage.removeItem("access");
   }
+}
+
+function logout() {
+  localStorage.removeItem("access");
+  window.location.href = "index.html";
 }
 
 document.addEventListener("DOMContentLoaded", fetchDoctorProfileIfLoggedIn);
