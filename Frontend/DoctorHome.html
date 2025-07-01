@@ -190,13 +190,8 @@
       <div id="calendar"></div>
     </section>
   </main>
-  <script>
-  function getBaseURL() {
-    const hostname = window.location.hostname;
-    return (hostname === "localhost" || hostname === "127.0.0.1") 
-      ? "http://127.0.0.1:8000" 
-      : "http://13.218.59.50";
-  }
+  <script type="module"> 
+   import { API_BASE_URL } from './config.js';
 
   async function loadNavbarAndDoctor() {
     const navbarDiv = document.getElementById("navbar");
@@ -216,7 +211,7 @@
       const authButton = document.querySelector(".auth-button-navbar");
       if (!token || !authButton) return;
 
-      const baseURL = getBaseURL();
+      const baseURL = API_BASE_URL
       const response = await fetch(`${baseURL}/doctor/home/`, {
         headers: {
           Authorization: `Bearer ${token}`,
