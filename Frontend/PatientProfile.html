@@ -53,7 +53,7 @@
             min-height: 400px;
         }
         .left-panel {
-            width: 350px;
+            width: 500px;
             border-right: 1px solid #ddd;
             padding: 20px;
             box-sizing: border-box;
@@ -122,16 +122,15 @@
                     <img src="images/doctor.png" alt="Patient Profile Picture" />
                     <h2>John Doe</h2>
                 </div>
-                <ul class="details-list" id="detailsList">
-                    <li><span class="label">DOB:</span> 01/01/1980</li>
-                    <li><span class="label">Email:</span> john.doe@example.com</li>
-                    <li><span class="label">Mobile Number:</span> +1 234 567 8901</li>
-                    <li><span class="label">Password:</span> ********</li>
-                    <li><span class="label">Address:</span> 123 Main St</li>
-                    <li><span class="label">City:</span> Springfield</li>
-                    <li><span class="label">State:</span> Illinois</li>
-                    <li><span class="label">Country:</span> USA</li>
-                </ul>
+              <ul class="details-list" id="detailsList">
+  <li><span class="label">Email:</span> <span class="value" id="emailValue">Loading...</span></li>
+  <li><span class="label">Mobile Number:</span> <span class="value" id="mobileValue">Loading...</span></li>
+  <li><span class="label">Address:</span> <span class="value" id="addressValue">Loading...</span></li>
+  <li><span class="label">City:</span> <span class="value" id="cityValue">Loading...</span></li>
+  <li><span class="label">State:</span> <span class="value" id="stateValue">Loading...</span></li>
+  <li><span class="label">Country:</span> <span class="value" id="countryValue">Loading...</span></li>
+</ul>
+
                 <div class="action-buttons" style="margin-top: 20px; display: flex; gap: 15px;">
                     <button id="editBtn" class="edit-button" style="padding: 8px 20px; background-color: #007bff; border: none; border-radius: 6px; color: white; font-weight: 600; cursor: pointer; transition: background-color 0.2s;">Edit</button>
                     <button id="signOutBtn" class="signout-button" style="padding: 8px 20px; background-color: #dc3545; border: none; border-radius: 6px; color: white; font-weight: 600; cursor: pointer; transition: background-color 0.2s;">Sign Out</button>
@@ -300,5 +299,67 @@
         // Attach handlers on initial load
         attachEditSaveHandlers();
     </script>
+     </script>
+   <script type="module"> 
+import { API_BASE_URL } from './config.js';
+
+async function loadNavbarAndDoctor() {
+  const navbarDiv = document.getElementById("navbar");
+  const token = localStorage.getItem("access");
+
+  if (!navbarDiv) return;
+
+  try {
+    // Load and inject navbar HTML
+    const navbarHTML = await fetch("navbar.html").then(res => res.text());
+    navbarDiv.innerHTML = navbarHTML;
+
+    // Allow DOM to settle
+    await new Promise(resolve => setTimeout(resolve, 50));
+
+    const authButton = document.querySelector(".auth-button-navbar");
+    if (!token || !authButton) return;
+
+    const baseURL = API_BASE_URL;
+    const response = await fetch(`${baseURL}/patient/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!response.ok) throw new Error("Invalid token");
+
+    const data = await response.json();
+
+    // Set name in navbar
+    authButton.textContent = `Welcome, ${data.name}`;
+
+    // 🟢 Populate patient profile details
+    document.querySelector(".profile-header h2").textContent = data.name;
+
+    document.getElementById("emailValue").textContent = data.email;
+document.getElementById("mobileValue").textContent = data.mobile_number;
+document.getElementById("addressValue").textContent = data.address;
+document.getElementById("cityValue").textContent = data.city;
+document.getElementById("stateValue").textContent = data.state;
+document.getElementById("emailValue").textContent = data.email;
+document.getElementById("mobileValue").textContent = data.mobile_number;
+document.getElementById("addressValue").textContent = data.address;
+document.getElementById("cityValue").textContent = data.city;
+document.getElementById("stateValue").textContent = data.state;
+document.getElementById("countryValue").textContent = data.country;
+
+    attachEditSaveHandlers(); // reattach handlers since DOM was replaced
+
+  } catch (err) {
+    console.warn("Patient fetch failed:", err);
+    localStorage.removeItem("access");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadNavbarAndDoctor);
+</script>
+
 </body>
 </html>

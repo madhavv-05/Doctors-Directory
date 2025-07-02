@@ -1,4 +1,3 @@
-<!-- navbar.html -->
 <link rel="stylesheet" href="NavBar.css" />
 <nav class="navbar">
   <div class="nav-left-navbar">
@@ -10,6 +9,35 @@
   <div class="nav-right-navbar" id="nav-user-section">
     <a href="Issues.html" class="nav-link-navbar" style="margin-right: 15px;">Raise an Issue</a>
     <span id="doctor-welcome-name" style="margin-right: 15px;"></span>
-    <a href="index.html" class="auth-button-navbar">Login</a>
+    <a href="#" id="login-button-navbar" class="auth-button-navbar">Login</a>
   </div>
 </nav>
+
+<script>
+  function setLoginRedirect() {
+    const loginButton = document.getElementById('login-button-navbar');
+    const currentPage = window.location.pathname.split('/').pop().toLowerCase(); // Gets filename in lowercase
+    
+    console.log("Current page:", currentPage); // Fixed console.log
+    
+    if (currentPage === 'patienthome.html') {
+      loginButton.href = 'PatientProfile.html';
+      console.log("Redirecting to PatientProfile.html");
+    } 
+    else if (currentPage === 'doctorhome.html') {
+      loginButton.href = 'javascript:void(0)';
+      loginButton.onclick = (e) => {
+        e.preventDefault();
+        alert("Doctors don't need to login here.");
+      };
+      console.log("Doctor home - login disabled");
+    } 
+    else {
+      loginButton.href = 'index.html';
+      console.log("Redirecting to index.html");
+    }
+  }
+
+  // Run when DOM is ready
+  document.addEventListener('DOMContentLoaded', setLoginRedirect);
+</script>

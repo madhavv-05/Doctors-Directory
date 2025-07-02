@@ -352,7 +352,7 @@ import { API_BASE_URL } from './config.js';
                     window.location.href = "DoctorHome.html";
                 }
                 else{
-               window.location.href = "home.html";
+               window.location.href = "PatientHome.html";
                 }
   } else if (res.status === 202) {
     localStorage.setItem("contact", data.contact);
@@ -392,7 +392,7 @@ async function handleGoogleSignIn(response) {
 
         // Redirect based on user_type
         if (data.user_type === "patient") {
-            window.location.href = "home.html";
+            window.location.href = "PatientHome.html";
         } else if (data.user_type === "doctor") {
             window.location.href = "DoctorHome.html";
         }

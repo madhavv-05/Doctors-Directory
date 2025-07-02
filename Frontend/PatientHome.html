@@ -188,11 +188,13 @@ body {
 
 .items-grid {
     display: flex;
+    flex-wrap: wrap;
     overflow-x: auto;
     gap: 30px;
     padding: 20px 0;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
 }
 
 .item-card {
@@ -501,7 +503,7 @@ body {
 
         <!-- Logo and Copyright -->
         <div class="footer-bottom">
-            <img src="images/practo-logo-white.png" alt="Doctor's Directory" class="footer-logo">
+            <img  alt="Doctor's Directory" class="footer-logo">
             <p class="copyright">Copyright © 2017, Doctor's Directory. All rights reserved.</p>
         </div>
     </footer>
@@ -611,7 +613,7 @@ body {
       if (!token || !authButton) return;
 
       const baseURL = API_BASE_URL
-      const response = await fetch(`${baseURL}/doctor/home/`, {
+      const response = await fetch(`${baseURL}/patient/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
@@ -633,6 +635,87 @@ body {
   }
 
   document.addEventListener("DOMContentLoaded", loadNavbarAndDoctor);
+</script>
+<script type="module">
+  import { API_BASE_URL } from './config.js';
+
+  async function fetchSpecialities() {
+    const response = await fetch(`${API_BASE_URL}/doctor/specialities/`);
+    const data = await response.json();
+
+    // Format into the same structure as your old 'Consult doctors online for any Specialty' section
+    return {
+      title: "Consult doctors online for any Specialty",
+      description: "Private online consultations with verified doctors in all specialists",
+      items: data.map(speciality => ({
+        imgSrc: speciality.image_url,
+        title: speciality.name,
+        link: "SearchResults.html"
+      }))
+    };
+  }
+
+  async function renderCategories() {
+    const categoriesSection = document.getElementById('categoriesSection');
+    categoriesSection.innerHTML = '';
+
+    const specialitiesCategory = await fetchSpecialities();
+    const categoryElement = createCategorySection(specialitiesCategory);
+    categoriesSection.appendChild(categoryElement);
+  }
+
+  function createCategorySection(category) {
+    const container = document.createElement('div');
+    container.className = 'category-container';
+
+    const header = document.createElement('div');
+    header.className = 'category-header';
+
+    const title = document.createElement('h2');
+    title.textContent = category.title;
+
+    const description = document.createElement('p');
+    description.textContent = category.description;
+
+    header.appendChild(title);
+    header.appendChild(description);
+    container.appendChild(header);
+
+    const itemsGrid = document.createElement('div');
+    itemsGrid.className = 'items-grid';
+
+    category.items.forEach(item => {
+      const itemCard = document.createElement('div');
+      itemCard.className = 'item-card';
+
+      const iconCircle = document.createElement('div');
+      iconCircle.className = 'icon-circle';
+
+      const img = document.createElement('img');
+      img.src = item.imgSrc;
+      img.alt = item.title;
+
+      iconCircle.appendChild(img);
+      itemCard.appendChild(iconCircle);
+
+      const itemTitle = document.createElement('h3');
+      itemTitle.textContent = item.title;
+      itemCard.appendChild(itemTitle);
+
+      const link = document.createElement('a');
+      link.href = item.link;
+      link.className = 'consult-link';
+      link.textContent = 'CONSULT NOW';
+
+      itemCard.appendChild(link);
+      itemsGrid.appendChild(itemCard);
+    });
+
+    container.appendChild(itemsGrid);
+    return container;
+  }
+
+  document.addEventListener('DOMContentLoaded', renderCategories);
 </script>
 
 

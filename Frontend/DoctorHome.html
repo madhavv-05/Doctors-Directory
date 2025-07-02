@@ -237,8 +237,8 @@
 </script>
 
 
-  <script>
-    
+  <script type="module"> 
+   import { API_BASE_URL } from './config.js';
     const profileFields = ['name', 'specialization', 'address', 'fees', 'age', 'availability'];
     
     const profilePictureEl = document.getElementById('profile-picture');
@@ -284,13 +284,13 @@
     }
  
     function loadDoctorProfile() {
-      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-      const BASE_URL = isLocalhost ? 'http://127.0.0.1:8000' : 'http://13.218.59.50';
+       const BASE_URL = API_BASE_URL
+     
       const token = localStorage.getItem('access');
 
       if (!token) {
         alert('You are not logged in.');
-        window.location.href = '/Frontend/login.html';
+        window.location.href = '/Frontend/index.html';
         return;
       }
 
