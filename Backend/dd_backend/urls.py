@@ -28,6 +28,8 @@ urlpatterns = [
     path('api/auth/', include('jwt_authentication.urls')),
     path('accounts/', include('accounts.urls')),
     path('doctor/', include('doctor.urls')),
+    path('patient/', include('patient.urls')),
+   
    
 ]
 

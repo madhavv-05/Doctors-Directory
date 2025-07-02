@@ -9,6 +9,8 @@ import uuid
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.utils import timezone
+from doctor.models import Speciality
+
 
 # Choices for user type
 USER_TYPE_CHOICES = (
@@ -66,7 +68,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class UserDoctor(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    specialization = models.CharField(max_length=255)
+    speciality = models.ForeignKey(Speciality, on_delete=models.SET_NULL, null=True, blank=True)
+
     fees = models.PositiveIntegerField()
     experience = models.PositiveIntegerField()
     rating = models.PositiveIntegerField(default=0)
