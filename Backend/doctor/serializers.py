@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from accounts.models import UserDoctor
+from .models import Speciality
+
 
 class DoctorProfileSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
@@ -20,3 +22,10 @@ class DoctorProfileSerializer(serializers.ModelSerializer):
         # Filter out any empty parts
         full_address = ', '.join(filter(None, address_parts))
         return full_address
+
+
+
+class SpecialitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Speciality
+        fields = ['id', 'name', 'image_url']
